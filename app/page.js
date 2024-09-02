@@ -2,6 +2,7 @@ import Activity from "@/components/shared/Home/ActivitySection/Activity";
 import District from "@/components/shared/Home/DistrictSection/District";
 import Hero from "@/components/shared/Home/Hero";
 import Highlight from "@/components/shared/Home/Highlight";
+import Location from "@/components/shared/Home/Location";
 import News from "@/components/shared/Home/NewsSection/News";
 import Image from "next/image";
 
@@ -35,6 +36,12 @@ export default function Home() {
       {/*TODO: Still need to be changed */}
       <div className="mt-20">
         <District />
+      </div>
+
+      {/* Location Component */}
+      {/*TODO: Still need to be changed */}
+      <div className="mt-20">
+        <Location />
       </div>
     </main>
   );
