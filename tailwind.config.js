@@ -26,6 +26,7 @@ module.exports = {
       colors: {
         custom: {
           gray: "#D9D9D9",
+          black: "#313131",
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
