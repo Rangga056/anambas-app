@@ -1,23 +1,31 @@
 import React from "react";
 import { Separator } from "@/components/ui/separator";
 import NewsCard from "./NewsCard";
+import SectionTag from "../../SectionTag";
+import Link from "next/link";
+import { FaArrowRight } from "react-icons/fa";
 
 //TODO: This component currently uses temporary placeholder contents
 //TODO: This compoent not yet responsive
 const News = () => {
   return (
     <div className="container ">
-      <div className="flex items-center gap-x-4">
-        <Separator className="w-32 my-8 border border-black" />
-        <span className="uppercase text-xl">updated news</span>
+      <div className="w-full flex items-center justify-between">
+        <SectionTag name={"updated news"} />
+        <Link
+          href={"/"}
+          className="flex items-center gap-x-4 capitalize text-lg"
+        >
+          see more <FaArrowRight />
+        </Link>
       </div>
       <div className="bg-custom-gray rounded-xl px-10 py-16">
-        <div className="flex items-start">
+        <div className="flex items-start gap-x-4">
           {/* left section */}
           {/*TODO: This needs to be updated when the final data is obtain */}
           <div className="rounded-lg flex flex-col md:w-1/2">
-            <div className="w-[600px] h-[400px] bg-slate-100 rounded-tl-xl rounded-tr-xl" />
-            <div className="md:w-[600px] flex flex-col items-start gap-y-[.25em] px-6 py-8 bg-slate-400 rounded-br-xl rounded-bl-xl">
+            <div className="w-[550px] h-[400px] bg-slate-100 rounded-tl-xl rounded-tr-xl" />
+            <div className="md:w-[550px] flex flex-col items-start gap-y-[.25em] px-6 py-8 bg-slate-400 rounded-br-xl rounded-bl-xl">
               <p className="text-sm uppercase font-thin">hot news</p>
               <h2 className="uppercase text-2xl font-semibold">news title</h2>
               <p className="text-xl text-balance">

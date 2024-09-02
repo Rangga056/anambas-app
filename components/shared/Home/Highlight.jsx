@@ -1,17 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import React from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import { FaStar } from "react-icons/fa";
+import SectionTag from "../SectionTag";
 
 //TODO: This component currently uses temporary placeholder contents
 const Highlight = () => {
   return (
     <section className="container h-fit">
-      <div className="flex items-center gap-x-4">
-        <Separator className="w-32 my-8 border border-black" />
-        <span className="uppercase text-xl">sightseeing spots</span>
-      </div>
+      <SectionTag name={"sightseeing spot"} />
 
       <div className="flex items-start justify-between">
         {/* left section */}
