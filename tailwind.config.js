@@ -24,6 +24,9 @@ module.exports = {
         "screen-2xl": "1440px",
       },
       colors: {
+        custom: {
+          gray: "#D9D9D9",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -81,4 +84,3 @@ module.exports = {
   },
   plugins: [require("tailwindcss-animate")],
 };
-

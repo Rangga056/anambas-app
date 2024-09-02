@@ -1,5 +1,6 @@
 import Hero from "@/components/shared/Home/Hero";
 import Highlight from "@/components/shared/Home/Highlight";
+import News from "@/components/shared/Home/NewsSection/News";
 import Image from "next/image";
 
 export default function Home() {
@@ -11,8 +12,15 @@ export default function Home() {
       </div>
 
       {/* Sightseeing spots/ highlights */}
+      {/*TODO: Still need to be changed */}
       <div className="mt-20">
         <Highlight />
+      </div>
+
+      {/* News component */}
+      {/*TODO: Still need to be changed */}
+      <div className="mt-20">
+        <News />
       </div>
     </main>
   );

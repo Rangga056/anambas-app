@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Separator } from "@radix-ui/react-dropdown-menu";
-import Image from "next/image";
+import { Separator } from "@/components/ui/separator";
 import React from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import { FaStar } from "react-icons/fa";

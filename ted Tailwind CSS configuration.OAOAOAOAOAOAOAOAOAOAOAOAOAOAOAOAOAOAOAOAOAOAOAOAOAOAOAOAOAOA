@@ -1,0 +1,44 @@
+* [33mcommit c0b6305f342f88bcddb9c7868ee117fd8da43dcb[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+[31m|[m Author: Rangga <muhammadrangga056@gmail.com>
+[31m|[m Date:   Fri Aug 30 21:40:16 2024 +0700
+[31m|[m 
+[31m|[m     feat: start developing home page , add new UI components , and update global styles
+[31m|[m     
+[31m|[m     - Added new components: Footer, Header, NavItems, Hero, Highlight, and
+[31m|[m     various UI elements (accordion, button, card, command, dialog,
+[31m|[m     dropdown-menu, table).
+[31m|[m     - Created new configuration file: components.json.
+[31m|[m     - Updated global styles and layout with new CSS modifications.
+[31m|[m     - Added utility functions in lib/utils.js.
+[31m|[m     - Updated package dependencies and lock file.
+[31m|[m     - Adjusted Tailwind CSS configuration.
+[31m|[m 
+* [33mcommit d49ffbcf18a9f5c4e06a9d9736374588be3be112[m[33m ([m[1;31morigin/yoga-testFetch[m[33m)[m
+[31m|[m Author: Rangga <muhammadrangga056@gmail.com>
+[31m|[m Date:   Thu Aug 29 14:39:23 2024 +0700
+[31m|[m 
+[31m|[m     install dependancy package for "html-react-parser"
+[31m|[m 
+* [33mcommit 1aa7f3a8997463da1c31f94ad917e3b24de63cad[m
+[31m|[m Author: Rangga <muhammadrangga056@gmail.com>
+[31m|[m Date:   Wed Aug 28 11:36:47 2024 +0700
+[31m|[m 
+[31m|[m     add react leaflet
+[31m|[m 
+* [33mcommit 37f22086bacad13eafa11eb2c27f09d4c2dd6534[m
+  Author: Rangga <muhammadrangga056@gmail.com>
+  Date:   Wed Aug 28 11:00:43 2024 +0700
+  
+      first commit
+  
+* [33mcommit 6f8afa51f7fc64ecd41d3e12737bab1b04166f35[m[33m ([m[1;31morigin/yoga-API[m[33m)[m
+[32m|[m Author: Yoga Aditya Nugraha <108383702+yoga-nditya@users.noreply.github.com>
+[32m|[m Date:   Thu Aug 29 10:04:15 2024 -0700
+[32m|[m 
+[32m|[m     Update README.md
+[32m|[m 
+* [33mcommit 56f29414067a210d0f0a337856a7524d56327270[m
+  Author: Yoga Aditya Nugraha <yoga19201@gmail.com>
+  Date:   Thu Aug 29 10:00:52 2024 -0700
+  
+      initial commit
