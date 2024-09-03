@@ -1,3 +1,4 @@
+import FAQ from "@/components/shared/FAQs/FAQ";
 import Activity from "@/components/shared/Home/ActivitySection/Activity";
 import District from "@/components/shared/Home/DistrictSection/District";
 import Hero from "@/components/shared/Home/Hero";
@@ -42,6 +43,12 @@ export default function Home() {
       {/*TODO: Still need to be changed */}
       <div className="mt-20">
         <Location />
+      </div>
+
+      {/* FAQ Component */}
+      {/*TODO: Still need to be changed */}
+      <div className="mt-20">
+        <FAQ />
       </div>
     </main>
   );
