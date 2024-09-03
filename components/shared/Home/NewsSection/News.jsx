@@ -13,7 +13,7 @@ const News = () => {
       <div className="w-full flex items-center justify-between">
         <SectionTag name={"updated news"} />
         <Link
-          href={"/"}
+          href={"/news"}
           className="flex items-center gap-x-4 capitalize text-lg"
         >
           see more <FaArrowRight />
