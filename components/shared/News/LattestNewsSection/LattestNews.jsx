@@ -22,7 +22,7 @@ const LattestNews = () => {
   };
 
   return (
-    <div className="w-full pb-16">
+    <div className="w-full py-24">
       <SectionTag name={"lattest news"} />
         {/* Card Section */}
       <div
