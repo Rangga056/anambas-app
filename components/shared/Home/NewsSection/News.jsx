@@ -9,7 +9,7 @@ import { FaArrowRight } from "react-icons/fa";
 //TODO: This compoent not yet responsive
 const News = () => {
   return (
-    <div className="container ">
+    <div className="container">
       <div className="w-full flex items-center justify-between">
         <SectionTag name={"updated news"} />
         <Link
