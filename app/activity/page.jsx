@@ -4,10 +4,13 @@ import LattestNews from "@/components/shared/Activity/LattestNewsSection/Lattest
 const ActivityPage = () => {
   return (
     <div className="container">
+
+      {/* HERO */}
       <div className="bg-hero-activity-img bg-cover bg-center max-w-screen-2xl mx-auto h-[calc(100vh-80px)] flex items-center justify-center max-h-[750px]">
         <Hero />
       </div>
 
+      {/* Lattest News */}
       <LattestNews />
 
     </div>
