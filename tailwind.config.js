@@ -32,6 +32,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         "hero-beach-img": "url(/assets/images/beach.png)",
+        "hero-activity-img": "url(/assets/images/actbanner.png)",
       },
       maxWidth: {
         "screen-2xl": "1440px",
