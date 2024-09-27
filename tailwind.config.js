@@ -13,26 +13,27 @@ module.exports = {
       center: true,
       padding: "2rem",
       screens: {
-        'sm': '640px',
+        sm: "640px",
         // => @media (min-width: 640px) { ... }
-  
-        'md': '768px',
+
+        md: "768px",
         // => @media (min-width: 768px) { ... }
-  
-        'lg': '1024px',
+
+        lg: "1024px",
         // => @media (min-width: 1024px) { ... }
-  
-        'xl': '1280px',
+
+        xl: "1280px",
         // => @media (min-width: 1280px) { ... }
-  
-        '2xl': '1400px',
+
+        "2xl": "1400px",
         // => @media (min-width: 1536px) { ... }
-      }
+      },
     },
     extend: {
       backgroundImage: {
         "hero-beach-img": "url(/assets/images/beach.png)",
         "hero-activity-img": "url(/assets/images/actbanner.png)",
+        "destination": "url(/assets/images/maps.png)",
       },
       maxWidth: {
         "screen-2xl": "1440px",

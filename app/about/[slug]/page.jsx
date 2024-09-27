@@ -1,6 +1,6 @@
 "use client";
 
-import DestinationCard from "@/components/shared/About/DestinationSection/DestinationCard";
+import Destination from "@/components/shared/About/DestinationOption/Destination";
 import FAQ from "@/components/shared/FAQs/FAQ";
 import Location from "@/components/shared/Home/Location";
 import { DetailAboutDummy } from "@/constants/DetailAboutDummy";
@@ -26,12 +26,16 @@ const DetailAbout = (props) => {
 
       {/* DESTINATION OPTION
       TODO: will be updated */}
-      <DestinationCard />
+      {/* <DestinationCard /> */}
 
       {/* LOCATION
       TODO: will be updated*/}
       <div className="mt-20">
         <Location />
+      </div>
+
+      <div className="mt-20">
+        <Destination DetailAboutDummy={[dummyAbout]} />
       </div>
 
       {/* LOCATION
