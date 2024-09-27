@@ -1,12 +1,13 @@
 import District from "@/components/shared/About/DistrictSection/District";
 import Hero from "@/components/shared/About/Hero";
+import FAQ from "@/components/shared/FAQs/FAQ";
 
 const About = () => {
-    // TODO; will be updated
+  // TODO; will be updated
   return (
-    <div className="container">
-        {/* HERO */}
-        {/* hero section will be updated */}
+    <main className="container mb-20 ">
+      {/* HERO */}
+      {/* hero section will be updated */}
       <div className="bg-hero-beach-img bg-cover bg-center max-w-screen-2xl mx-auto h-[calc(100vh-80px)] flex items-end p-12 max-h-[750px]">
         <Hero />
       </div>
@@ -18,9 +19,15 @@ const About = () => {
       </p>
 
       {/* DISTRICT */}
-        {/* district section will be updated */}
-      <District />  
-    </div>
+      {/* district section will be updated */}
+      <District />
+
+      {/* FAQ Component */}
+      {/*TODO: Still need to be changed */}
+      <div className="mt-20">
+        <FAQ />
+      </div>
+    </main>
   );
 };
 
