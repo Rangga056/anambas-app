@@ -1,9 +1,9 @@
 "use client";
 
-import { navLinks } from "@/constants/Shared";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { navLinks } from "../../../constants/Shared";
 
 const NavItems = () => {
   const pathname = usePathname();
@@ -15,7 +15,7 @@ const NavItems = () => {
         return (
           <li
             key={link.index}
-            className={`${isActive && "text-black"} font-medium uppercase text-xl`}
+            className={`${isActive ? "text-black" : ""} font-medium uppercase text-xl`}
           >
             <Link href={link.path}>{link.label}</Link>
           </li>

@@ -1,6 +1,7 @@
 import React from "react";
 import NavItems from "./NavItems";
 
+
 const Header = () => {
   return (
     <header className="flex items-center justify-between container h-20">

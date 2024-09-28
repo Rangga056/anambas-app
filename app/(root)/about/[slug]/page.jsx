@@ -6,7 +6,7 @@ import Location from "@/components/shared/Home/Location";
 import { DetailAboutDummy } from "@/constants/DetailAboutDummy";
 
 const DetailAbout = (props) => {
-  const { params } = props;
+  const { params } = props; // Ensure params is being passed correctly
   const dummyAbout = DetailAboutDummy.find(
     (comp) => comp.id === parseInt(params.slug)
   );
