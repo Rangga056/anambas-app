@@ -10,7 +10,7 @@ const Location = () => {
         <SectionTag name={"get direction"} />
         <Link
           href={"https://maps.app.goo.gl/cwk5mBuLvcEFR4d87"}
-          className="flex items-center gap-x-4 capitalize text-lg"
+          className="flex items-center gap-x-4 capitalize text-lg text-[#236476]"
         >
           open map <FaArrowRight />
         </Link>
