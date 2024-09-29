@@ -21,3 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
+Route::get('/datauser', [AuthController::class, 'datauser']);
+Route::post('/admin/{id}/delete', [AuthController::class, 'removeuser']);
+Route::post('/admin/{id}/verify', [AuthController::class, 'verifyuser']);
+Route::get('/filteruser', [AuthController::class, 'filterdateuser']);
+Route::post('/searchuser', [AuthController::class, 'searchuser']);
