@@ -74,4 +74,24 @@ class AuthController extends Controller
             'message' => 'Successfully logged out',
         ]);
     }
+
+
+    //Tampilin data user
+    public function datauser()
+    {
+        $users = User::all();
+        return response()->json([
+            'data' => $users
+        ]);
+    }
+
+    //Hapus User Berdasarkan ID
+    public function removeuser($id)
+    {
+        $users = User::find($id);
+        $users->delete();
+        return response()->json([
+            'message' => 'User has been removed',
+        ]);
+    }
 }
