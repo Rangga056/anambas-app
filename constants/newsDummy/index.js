@@ -64,27 +64,3 @@ export const lattestNews = [
     },
 
 ]
-
-// Nav Links
-export const navLinks = [
-    {
-      index: 0,
-      label: "home",
-      path: "/",
-    },
-    {
-      index: 1,
-      label: "news",
-      path: "/news",
-    },
-    {
-      index: 2,
-      label: "activity",
-      path: "/activity",
-    },
-    {
-      index: 3,
-      label: "about",
-      path: "/about",
-    },
-  ];

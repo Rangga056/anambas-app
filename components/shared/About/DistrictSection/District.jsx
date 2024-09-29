@@ -3,7 +3,7 @@ import DisctrictCard from "./DisctrictCard";
 
 const District = () => {
     return (
-        <div className="max-w-screen-2xl mx-auto pb-14">
+        <div className="container mx-auto pb-14">
             <SectionTag name={"our districts"} />
             <DisctrictCard />
             {/* <DisctrictCard />
