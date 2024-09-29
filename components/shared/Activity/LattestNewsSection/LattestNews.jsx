@@ -3,9 +3,10 @@
 import React, { useState } from "react";
 import LattestCard from "./LattestCard";
 // DATA IS ONLY TEMPORARY AS A TRIAL
-import { lattestNews } from "@/constants/newsDummy";
+import { DetailActivityDummy } from "@/constants/DetailActivityDummy";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import SectionTag from "../../SectionTag";
+import Link from "next/link";
 
 const LattestNews = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -13,9 +14,9 @@ const LattestNews = () => {
 
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;
-  const currentPosts = lattestNews.slice(firstPostIndex, lastPostIndex);
+  const currentPosts = DetailActivityDummy.slice(firstPostIndex, lastPostIndex);
 
-  const totalPages = Math.ceil(lattestNews.length / postsPerPage);
+  const totalPages = Math.ceil(DetailActivityDummy.length / postsPerPage);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -24,19 +25,23 @@ const LattestNews = () => {
   return (
     <div className="w-full py-24">
       <SectionTag name={"lattest activities"} />
-        {/* Card Section */}
+      {/* Card Section */}
       <div
         className={`flex flex-wrap items-center justify-center ${
-          currentPosts.length < 3 ? "lg:justify-start lg:gap-x-10" : "lg:justify-between"
+          currentPosts.length < 3
+            ? "lg:justify-start lg:gap-x-10"
+            : "lg:justify-between"
         }`}
       >
         {currentPosts.map((item, index) => (
-          <LattestCard
-            key={index}
-            image={item.image}
-            date={item.date}
-            title={item.Title}
-          />
+          <Link href={`/activity/${item.id}`} key={index}>
+            <LattestCard
+              image={item.image}
+              date={item.date}
+              title={item.title}
+              place={item.place}
+            />
+          </Link>
         ))}
       </div>
 
