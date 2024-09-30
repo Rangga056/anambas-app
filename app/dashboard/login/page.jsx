@@ -2,9 +2,11 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import axios from 'axios';
 import { useState } from 'react';
 
 // Ini masih sementara/ temporary
+
 const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState('');  
   const [successMessage, setSuccessMessage] = useState(''); 
@@ -21,36 +23,22 @@ const LoginPage = () => {
     };
 
     try {
-      const response = await fetch('http://localhost:8000/api/login', {
-        method: 'post',
-        body: formData, // Use FormData directly for efficient data handling
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded', // Set appropriate header
-        },
-      });
-  
-      if (!response.ok) { // Handle non-2xx status codes
-        throw new Error(`API request failed with status ${response.status}`);
-      }
-  
-      const data = await response.json();
-      localStorage.setItem('token', data.access_token);
+      const response = await axios.post('http://localhost:8000/api/login', formData);
+      localStorage.setItem('token', response.data.access_token);
       setSuccessMessage("Login successful!");
-      router.push('/${id}/admin/dashboard'); // Use router.push for navigation
+      navigate('/${id}/admin/dashboard'); 
     } catch (error) {
-      console.error(error);
+      if (error.response && error.response.status === 401) {
+        setErrorMessage("Username or password is incorrect.");
+      } else if (error.response && error.response.data) {
   
-      let errorMessage;
-      if (error.message.includes('401')) {
-        errorMessage = "Username or password is incorrect.";
+        setErrorMessage(error.response.data.message || "Login failed.");
       } else {
-        errorMessage = error.response?.data?.message || "Login failed.";
+        setErrorMessage("An error occurred. Please try again.");
       }
-  
-      setErrorMessage(errorMessage);
+      console.error(error); 
     }
   };
-  
   return (
     <main className="container w-full h-screen flex items-center justify-center">
       <div className="rounded-lg border-slate-700 border p-10 pt-6">
@@ -75,7 +63,7 @@ const LoginPage = () => {
           </div>
         )}
         {/* Login Form */}
-        <form onSubmit={handleSubmit} >
+        <form onSubmit={handleSubmit} method="post">
           {/* Username */}
           <label htmlFor="username" className="font-semibold">
             Username
@@ -126,4 +114,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-

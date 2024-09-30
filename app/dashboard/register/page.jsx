@@ -3,59 +3,41 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from 'react';
+import axios from 'axios';
 
 // Ini masih sementara/ temporary
 const RegisterPage = () => {
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');  
+  const [successMessage, setSuccessMessage] = useState('');  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
+    setErrorMessage(''); 
+    setSuccessMessage(''); 
 
-    setErrorMessage(''); // Clear any existing error messages
-    setSuccessMessage(''); // Clear any existing success messages
-
-    const formData = new FormData(event.target); // Create FormData object
-
-    const data = Object.fromEntries(formData); // Convert to object
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData);
 
     if (data.password !== data['verify-password']) {
       setErrorMessage("Passwords do not match");
-      return; // Prevent further processing if passwords don't match
+      return;
     }
 
     try {
-      const response = await fetch('http://localhost:8000/api/register', {
-        method: 'post',
-        body: formData, // Use FormData directly for efficient data handling
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded', // Set appropriate header
-        },
-      });
-
-      if (!response.ok) { // Handle non-2xx status codes gracefully
-        throw new Error(`API request failed with status ${response.status}`);
-      }
-
-      const responseData = await response.json();
-
+      const response = await axios.post('http://localhost:8000/api/register', data);
       setSuccessMessage("Registration successful!");
-      console.log(responseData);
+      console.log(response.data); 
     } catch (error) {
-      console.error(error);
-
-      let errorMessage;
-      if (error.message.includes('422')) { // Handle potential validation errors
-        errorMessage = "Registration failed due to invalid data.";
-      } else if (error.response?.data?.message) {
-        errorMessage = error.response.data.message;
+      if (error.response && error.response.data) {
+  
+        setErrorMessage(error.response.data.message || "Registration failed.");
       } else {
-        errorMessage = "An error occurred. Please try again.";
+        setErrorMessage("An error occurred. Please try again.");
       }
-
-      setErrorMessage(errorMessage);
     }
   };
+
   return (
     <main className="container w-full min-h-screen flex items-center justify-center">
       <div className="rounded-lg border-slate-700 border p-10 pt-6">
@@ -64,8 +46,23 @@ const RegisterPage = () => {
             Register Form
           </h1>
         </div>
+         {/* Erorr Message */}
+         {errorMessage && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+            <strong className="font-bold">Error:</strong>
+            <span className="block sm:inline"> {errorMessage}</span>
+          </div>
+        )}
+
+        {/* Succes Message */}
+        {successMessage && (
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+            <strong className="font-bold">Success:</strong>
+            <span className="block sm:inline"> {successMessage}</span>
+          </div>
+        )}
         {/* Register Form */}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} method="post">
           {/* Username */}
           <label htmlFor="username" className="font-semibold">
             Username
@@ -73,40 +70,49 @@ const RegisterPage = () => {
           <Input
             type="text"
             id="username"
+            name="username"
             className="border border-black my-4 w-[350px]"
+            required
           />
 
-          {/* email */}
+          {/* Email */}
           <label htmlFor="email" className="font-semibold">
             Email
           </label>
           <Input
             type="email"
             id="email"
+            name="email"
             className="border border-black my-4 w-[350px]"
+            required
           />
 
-          {/* Passworwd */}
+          {/* Password */}
           <label htmlFor="password" className="font-semibold">
             Password
           </label>
           <Input
             type="password"
             id="password"
+            name="password"
             className="border border-black my-4 w-[350px]"
+            required
           />
 
-          {/* verify Passworwd */}
+          {/* Verify Password */}
           <label htmlFor="verify-password" className="font-semibold">
             Verify Password
           </label>
           <Input
             type="password"
             id="verify-password"
+            name="verify-password"
             className="border border-black my-4 w-[350px]"
+            required
           />
-           {/* Register button */}
-           <div className="w-full flex items-center justify-center mt-10">
+
+          {/* Register button */}
+          <div className="w-full flex items-center justify-center mt-10">
             <Button
               type="submit"
               className="hover:border-2 border-black font-semibold hover:text-black hover:bg-transparent transition-colors"
@@ -127,7 +133,6 @@ const RegisterPage = () => {
             </Link>
           </h3>
         </div>
-       
       </div>
     </main>
   );
