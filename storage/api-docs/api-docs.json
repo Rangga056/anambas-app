@@ -1,0 +1,125 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Documentasi API anambas",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "register"
+                ],
+                "summary": "API that generate account for login/register",
+                "description": "first it make validate username,email and password after succes it created new user create JWT and hash the password",
+                "operationId": "register",
+                "responses": {
+                    "default": {
+                        "description": "insert new data to model user"
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "login"
+                ],
+                "summary": "API that auth for login",
+                "description": "it's validate to database it is valid or no, if valid  it will make session and jwt and succesfull login",
+                "operationId": "login",
+                "responses": {
+                    "default": {
+                        "description": "make request data to model users"
+                    }
+                }
+            }
+        },
+        "/api/datauser": {
+            "get": {
+                "tags": [
+                    "datauser"
+                ],
+                "summary": "API that request all data to show data in website",
+                "description": "it will get request all data to show data in website",
+                "operationId": "datauser",
+                "responses": {
+                    "default": {
+                        "description": "make request data to model users"
+                    }
+                }
+            }
+        },
+        "/api/deleteuser/{id}": {
+            "post": {
+                "tags": [
+                    "deleteuser"
+                ],
+                "summary": "API that request Paramater ID,That delete the user ",
+                "description": "it will remove user base on id user",
+                "operationId": "deleteuser",
+                "responses": {
+                    "default": {
+                        "description": "make request data to model users"
+                    }
+                }
+            }
+        },
+        "/api/verifyuser/{id}": {
+            "post": {
+                "tags": [
+                    "verifyuser"
+                ],
+                "summary": "API that request Paramater ID,That verify the user ",
+                "description": "it will verify the user base on id and it will create timestamp on model collom email_verified_at",
+                "operationId": "verifyuser",
+                "responses": {
+                    "default": {
+                        "description": "make request data to model users"
+                    }
+                }
+            }
+        },
+        "/api/searchuser": {
+            "get": {
+                "tags": [
+                    "searchuser"
+                ],
+                "summary": "API that request data,base on user want to see ",
+                "description": "it will request data,and find the data base on username and email ",
+                "operationId": "searchuser",
+                "responses": {
+                    "default": {
+                        "description": "make request data to model users"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "register",
+            "description": "register"
+        },
+        {
+            "name": "login",
+            "description": "login"
+        },
+        {
+            "name": "datauser",
+            "description": "datauser"
+        },
+        {
+            "name": "deleteuser",
+            "description": "deleteuser"
+        },
+        {
+            "name": "verifyuser",
+            "description": "verifyuser"
+        },
+        {
+            "name": "searchuser",
+            "description": "searchuser"
+        }
+    ]
+}

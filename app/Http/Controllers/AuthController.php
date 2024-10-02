@@ -7,12 +7,26 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
+    /**
+     * @OA\Post(
+     *     path="/api/register",
+     *     tags={"register"},
+     *     summary="API that generate account for login/register",
+     *     description="first it make validate username,email and password after succes it created new user create JWT and hash the password",
+     *     operationId="register",
+     *     @OA\Response(
+     *         response="default",
+     *         description="insert new data to model user"
+     *     )
+     * )
+     */
     public function register(Request $request)
     {
-        // Validasi input
         $validator = Validator::make($request->all(), [
             'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -23,7 +37,7 @@ class AuthController extends Controller
             return response()->json(['error' => $validator->errors()], 422);
         }
 
-        // Buat user baru
+
         $user = User::create([
             'username' => $request->username,
             'email' => $request->email,
@@ -39,8 +53,18 @@ class AuthController extends Controller
         ], 201);
     }
 
-    /**
-     * Login user.
+        /**
+     * @OA\Post(
+     *     path="/api/login",
+     *     tags={"login"},
+     *     summary="API that auth for login",
+     *     description="it's validate to database it is valid or no, if valid  it will make session and jwt and succesfull login",
+     *     operationId="login",
+     *     @OA\Response(
+     *         response="default",
+     *         description="make request data to model users"
+     *     )
+     * )
      */
     public function login(Request $request)
     {
@@ -62,7 +86,9 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
+            'status' => 'true',
             'message' => 'Login successful',
+            'token' => $token,
         ]);
     }
 
@@ -75,8 +101,19 @@ class AuthController extends Controller
         ]);
     }
 
-
-    //Tampilin data user
+         /**
+     * @OA\Get(
+     *     path="/api/datauser",
+     *     tags={"datauser"},
+     *     summary="API that request all data to show data in website",
+     *     description="it will get request all data to show data in website",
+     *     operationId="datauser",
+     *     @OA\Response(
+     *         response="default",
+     *         description="make request data to model users"
+     *     )
+     * )
+     */
     public function datauser()
     {
         $users = User::all();
@@ -85,7 +122,19 @@ class AuthController extends Controller
         ]);
     }
 
-    //Hapus User Berdasarkan ID
+    /**
+     * @OA\Post(
+     *     path="/api/deleteuser/{id}",
+     *     tags={"deleteuser"},
+     *     summary="API that request Paramater ID,That delete the user ",
+     *     description="it will remove user base on id user",
+     *     operationId="deleteuser",
+     *     @OA\Response(
+     *         response="default",
+     *         description="make request data to model users"
+     *     )
+     * )
+     */
     public function removeuser($id)
     {
         $users = User::find($id);
@@ -94,4 +143,77 @@ class AuthController extends Controller
             'message' => 'User has been removed',
         ]);
     }
+
+   /**
+     * @OA\Post(
+     *     path="/api/verifyuser/{id}",
+     *     tags={"verifyuser"},
+     *     summary="API that request Paramater ID,That verify the user ",
+     *     description="it will verify the user base on id and it will create timestamp on model collom email_verified_at",
+     *     operationId="verifyuser",
+     *     @OA\Response(
+     *         response="default",
+     *         description="make request data to model users"
+     *     )
+     * )
+     */
+    public function verifyuser($id)
+    {
+        $user = User::find($id);
+        DB::table('users')
+        ->where('id', $user->id)
+        ->update([
+            'email_verified_at' => Carbon::now()->format('Y-m-d H:i:s', 'Asia/Jakarta'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s', 'Asia/Jakarta'),
+         ]);
+
+    return response()->json([
+        'message' => 'User has been verified successfully',
+    ]);
+    }
+
+    //Filter User masuk Berdasarkan tanggal
+    public function filterdateuser($column = 'created_at', $order = 'desc')
+{
+    static $currentOrder = 'desc'; 
+    if ($column === $currentOrder) {
+        $order = $order === 'desc' ? 'asc' : 'desc';
+    }
+
+    $currentOrder = $order;
+
+    $users = DB::table('users')
+        ->orderBy($column, $order)
+        ->get();
+
+    return response()->json([
+        'data' => $users
+    ]);
 }
+
+    /**
+     * @OA\Get(
+     *     path="/api/searchuser",
+     *     tags={"searchuser"},
+     *     summary="API that request data,base on user want to see ",
+     *     description="it will request data,and find the data base on username and email ",
+     *     operationId="searchuser",
+     *     @OA\Response(
+     *         response="default",
+     *         description="make request data to model users"
+     *     )
+     * )
+     */
+    public function searchuser(Request $request)
+{
+    $searchTerm = $request->input('search');
+
+    $users = User::where('username', 'like', '%' . $searchTerm . '%')
+        ->orWhere('email', 'like', '%' . $searchTerm . '%')
+        ->get();
+        return response()->json([
+            'data' => $users
+        ]);
+}
+}
+
