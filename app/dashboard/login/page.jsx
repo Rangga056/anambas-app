@@ -1,115 +1,133 @@
-'use client';
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import axios from 'axios';
-import { useState } from 'react';
+"use client";
 
-// Ini masih sementara/ temporary
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+
+const FormSchema = z.object({
+  username: z
+    .string()
+    .min(8, {
+      message: "Username must be at least 8 characters.",
+    })
+    .max(36, {
+      message: "Username must not exceed 36 characters",
+    }),
+  password: z.string().min(1),
+});
+
+import React from "react";
+import Link from "next/link";
 
 const LoginPage = () => {
-  const [errorMessage, setErrorMessage] = useState('');  
-  const [successMessage, setSuccessMessage] = useState(''); 
+  const { toast } = useToast();
+  const form = useForm({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      username: "",
+    },
+  });
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  function onSubmit(data) {
+    toast({
+      title: "You submitted the following values:",
+      description: (
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+        </pre>
+      ),
+    });
+  }
 
-    setErrorMessage(''); 
-    setSuccessMessage(''); 
-
-    const formData = {
-      username: event.target.username.value,
-      password: event.target.password.value,
-    };
-
-    try {
-      const response = await axios.post('http://localhost:8000/api/login', formData);
-      localStorage.setItem('token', response.data.access_token);
-      setSuccessMessage("Login successful!");
-      navigate('/${id}/admin/dashboard'); 
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        setErrorMessage("Username or password is incorrect.");
-      } else if (error.response && error.response.data) {
-  
-        setErrorMessage(error.response.data.message || "Login failed.");
-      } else {
-        setErrorMessage("An error occurred. Please try again.");
-      }
-      console.error(error); 
-    }
-  };
   return (
-    <main className="container w-full h-screen flex items-center justify-center">
-      <div className="rounded-lg border-slate-700 border p-10 pt-6">
-        <div>
-          <h1 className="my-8 text-3xl text-center w-full font-semibold">
-            Login Form
-          </h1>
-        </div>
-         {/* Erorr Message */}
-         {errorMessage && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-            <strong className="font-bold">Error:</strong>
-            <span className="block sm:inline"> {errorMessage}</span>
-          </div>
-        )}
-
-        {/* Succes Message */}
-        {successMessage && (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
-            <strong className="font-bold">Success:</strong>
-            <span className="block sm:inline"> {successMessage}</span>
-          </div>
-        )}
-        {/* Login Form */}
-        <form onSubmit={handleSubmit} method="post">
-          {/* Username */}
-          <label htmlFor="username" className="font-semibold">
-            Username
-          </label>
-          <Input
-            type="text"
-            id="username"
-            className="border border-black my-4 w-[350px]"
-            required
-          />
-
-          {/* Passworwd */}
-          <label htmlFor="password" className="font-semibold">
-            Password
-          </label>
-          <Input
-            type="password"
-            id="password"
-            className="border border-black my-4 w-[350px]"
-            required
-          />
-          {/* Login button */}
-          <div className="w-full flex items-center justify-center mt-10">
-            <Button
-              type="submit"
-              size="lg"
-              className="hover:border-2 border-black font-semibold hover:text-black hover:bg-transparent transition-colors"
+    <div className="flex items-center justify-center min-h-[100dvh] w-full lg:bg-none bg-hero-beach-img bg-cover bg-center">
+      <div className="flex items-center justify-center gap-x-4 container p-0 md:p-8">
+        <div className="lg:w-1/2 w-full mx-6 p-6 sm:px-0 sm:w-4/5 flex flex-col items-center justify-center bg-white py-16 rounded-3xl z-10 shadow-md lg:shadow-none">
+          <Form {...form} className="w-full h-full min-w-[455px]">
+            {/* LOGO */}
+            <div className="w-full flex justify-start items-center gap-x-3 max-w-[455px]">
+              <div className="w-12 aspect-square rounded-full bg-black" />
+              <span className="uppercase font-semibold text-2xl">logo</span>
+            </div>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="w-full max-w-[455px] space-y-6 mt-6 flex flex-col justify-center"
             >
-              Login
-            </Button>
-          </div>
-        </form>
-        {/* link to "/register" */}
-        <div>
-          <h3 className="my-8 text-center w-full font-medium">
-            Don't have an account yet? Register{" "}
-            <Link
-              href={"/dashboard/register"}
-              className="text-blue-500 hover:underline underline-offset-1 font-medium"
-            >
-              Here
-            </Link>
-          </h3>
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Username</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Username"
+                        {...field}
+                        className="rounded-full"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="flex items-center justify-between">
+                      Password{" "}
+                      <Link
+                        href={"dashboard/login/forgot-password"}
+                        className="text-neutral-700 opacity-85 hover:text-black hover:opacity-100 transition-colors delay-150 "
+                      >
+                        Forgot?
+                      </Link>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Password"
+                        {...field}
+                        className="rounded-full"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" className="rounded-full w-full ">
+                Submit
+              </Button>
+              <Link
+                href={"/dashboard/register"}
+                className="w-full flex justify-center items-center"
+              >
+                <p>
+                  {" "}
+                  Don’t Have an Account Register
+                  <Button variant="link" className="text-blue-400 px-2">
+                    Here
+                  </Button>
+                </p>
+              </Link>
+            </form>
+          </Form>
         </div>
+        <div className="hidden lg:flex lg:w-1/2 w-full bg-hero-beach-img bg-cover bg-center h-full min-h-[770px] rounded-xl" />
       </div>
-    </main>
+    </div>
   );
 };
 
