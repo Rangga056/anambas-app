@@ -29,11 +29,11 @@ const detailActivity = (props) => {
       </div>
 
       <div className="grid grid-cols-6 gap-4 mt-20">
-        <div className="grid-start-1 col-span-5">
+        <div className="grid-start-1 col-span-4">
           <DescActivity DetailActivityDummy={dummyActivity} />
         </div>
-        <div className="col-start-6 col-span-7">
-          LATTEST ACTIVITY
+        <div className="col-start-5 col-span-2 mx-12 mt-8">
+          <p className="uppercase text-lg font-bold">lattest activity</p>
           <SideActivity DetailActivityDummy={dummyActivity} />
           <SideActivity DetailActivityDummy={dummyActivity} />
           <SideActivity DetailActivityDummy={dummyActivity} />
