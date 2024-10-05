@@ -68,6 +68,59 @@
   }
 }
 
+@layer utilities {
+  .flex-center {
+    @apply flex justify-center items-center;
+  }
+
+  .flex-between {
+    @apply flex justify-between items-center;
+  }
+
+  .display-1 {
+    @apply font-poppins font-bold text-8xl;
+  }
+
+  .display-2 {
+    @apply font-poppins font-bold text-6xl;
+  }
+
+  .display-3 {
+    @apply font-poppins font-bold text-5xl;
+  }
+
+  .header-1 {
+    @apply font-inter font-bold text-5xl;
+  }
+
+  .header-2 {
+    @apply font-inter font-bold text-3xl;
+  }
+  .header-3 {
+    @apply font-inter font-bold text-2xl;
+  }
+
+  .header-4 {
+    @apply font-inter font-bold text-xl;
+  }
+
+  .body {
+    @apply font-inter text-base;
+  }
+
+  .paragraph-1 {
+    @apply font-inter text-3xl;
+  }
+
+  .paragraph-2 {
+    @apply font-inter text-xl;
+  }
+
+  .paragraph-3 {
+    @apply font-inter text-lg;
+  }
+}
+
 .custom-pagination {
   --swiper-pagination-color: white;
   /* --swiper-pagination-left: auto; */
@@ -91,4 +144,3 @@
 .custom-pagination .swiper-pagination-bullet-active {
   width: 100px;
 }
-
