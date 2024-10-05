@@ -1,9 +1,10 @@
 "use client";
 
+import { FaEyeSlash, FaEye } from "react-icons/fa";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
+import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,7 +16,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import React from "react";
+import Link from "next/link";
 
+// Zod form schema
 const FormSchema = z.object({
   username: z
     .string()
@@ -28,11 +32,18 @@ const FormSchema = z.object({
   password: z.string().min(1),
 });
 
-import React from "react";
-import Link from "next/link";
-
 const LoginPage = () => {
+  const [passwordType, setPasswordType] = useState("password");
   const { toast } = useToast();
+
+  const togglePassword = () => {
+    if (passwordType === "password") {
+      setPasswordType("text");
+      return;
+    }
+    setPasswordType("password");
+  };
+
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -54,7 +65,7 @@ const LoginPage = () => {
 
   return (
     <div className="flex-center min-h-[100dvh] w-full lg:bg-none bg-hero-beach-img bg-cover bg-center">
-      <div className="flex-center gap-x-4 container p-0 md:p-8">
+      <div className="flex-center gap-x-4 container p-0 md:px-8">
         <div className="lg:w-1/2 w-full mx-6 p-6 sm:px-0 sm:w-4/5 flex-center flex-col bg-white py-16 rounded-3xl z-10 shadow-md lg:shadow-none">
           <Form {...form} className="w-full h-full min-w-[455px]">
             {/* LOGO */}
@@ -89,7 +100,7 @@ const LoginPage = () => {
                 control={form.control}
                 name="password"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="relative">
                     <FormLabel className="flex-between paragraph-3 md:paragraph-2">
                       Password{" "}
                       <Link
@@ -102,10 +113,18 @@ const LoginPage = () => {
                     <FormControl>
                       <Input
                         placeholder="Password"
+                        type={passwordType}
                         {...field}
                         className="rounded-2xl h-[45px]"
                       />
                     </FormControl>
+                    <span
+                      disabled={false}
+                      className="absolute bg-transparent hover:bg-transparent text-blue text-xl p-3 rounded-lg uppercase w-10  right-1 top-8 cursor-pointer"
+                      onClick={togglePassword}
+                    >
+                      {passwordType === "password" ? <FaEye /> : <FaEyeSlash />}
+                    </span>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -118,14 +137,14 @@ const LoginPage = () => {
               </Button>
               <Link
                 href={"/dashboard/register"}
-                className="w-full flex-center body md:paragraph-2"
+                className="w-full flex-center body md:paragraph-2 text-center"
               >
                 <p>
                   {" "}
                   Don’t Have an Account Register
                   <Button
                     variant="link"
-                    className="text-blue body md:paragraph-2 px-2 active:scale-95 transition-transform delay-250 ease-linear"
+                    className="text-blue body md:paragraph-2 px-2 active:scale-95 transition-transform delay-250 ease-linear underline"
                   >
                     Here
                   </Button>
@@ -134,7 +153,7 @@ const LoginPage = () => {
             </form>
           </Form>
         </div>
-        <div className="hidden lg:flex lg:w-1/2 w-full bg-hero-beach-img bg-cover bg-center h-full min-h-[770px] rounded-xl" />
+        <div className="hidden lg:flex lg:w-1/2 w-full bg-hero-beach-img bg-cover bg-center h-[90svh] max-h-[770px] rounded-xl" />
       </div>
     </div>
   );
