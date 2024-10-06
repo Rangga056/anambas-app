@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\register;
+use App\Mail\login;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -43,11 +46,12 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        Mail::to('pjanambas123@gmail.com')->send(new register($user));
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'message' => 'User registered successfully',
+            'message' => 'User register successfully',
             'access_token' => $token,
             'token_type' => 'Bearer',
         ], 201);
@@ -84,6 +88,8 @@ class AuthController extends Controller
 
         $user = User::where('username', $request->username)->firstOrFail();
         $token = $user->createToken('auth_token')->plainTextToken;
+        Mail::to('pjanambas123@gmail.com')->send(new login($user));
+        
 
         return response()->json([
             'status' => 'true',
