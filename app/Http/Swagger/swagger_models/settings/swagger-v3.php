@@ -2,12 +2,12 @@
 
 /**
  * @OA\Info(
- *     description="API documentation Desa Bumi Sriwijaya",
+ *     description="API documentation Anambas app",
  *     version="1.0.0",
- *     title="API documentation Desa Bumi Sriwijaya",
+ *     title="API documentation Anambas app",
  *     termsOfService="http://swagger.io/terms/",
  *     @OA\Contact(
- *         email="sabitzhabit@gmail.com"
+ *         email="anambas@gmail.com"
  *     ),
  *     @OA\License(
  *         name="Apache 2.0",
@@ -22,7 +22,7 @@
  *      description="localhost descan"
  * )
  *  @OA\Server(
- *      url="https://desabumisriwijaya.web.bps.go.id/",
- *      description="Server Desa Bumi Sriwijaya"
+ *      url="https://anambasapp.id/",
+ *      description="Server anambasapp"
  *  )
  */
