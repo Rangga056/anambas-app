@@ -46,7 +46,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        Mail::to('afzalkhm1203@gmail.com')->send(new register($user));
+        Mail::to('pjanambas123@gmail.com')->send(new register($user));
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -88,7 +88,7 @@ class AuthController extends Controller
 
         $user = User::where('username', $request->username)->firstOrFail();
         $token = $user->createToken('auth_token')->plainTextToken;
-        Mail::to('afzalkhm1203@gmail.com')->send(new login($user));
+        Mail::to('pjanambas123@gmail.com')->send(new login($user));
         
 
         return response()->json([
