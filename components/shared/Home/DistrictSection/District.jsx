@@ -10,7 +10,7 @@ import "../../../../app/globals.css";
 //TODO: This compoent not yet responsive
 const District = () => {
   return (
-    <div className="max-w-screen-2xl mx-auto bg-district p-10 min-h-[700px]">
+    <div className="max-w-screen-2xl mx-auto p-10 min-h-[700px]">
       <div className="container">
         <div className="w-full flex items-center justify-between text-white">
           <SectionTag

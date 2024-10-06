@@ -35,7 +35,7 @@ export default function Home() {
 
       {/* Disctrict Component */}
       {/*TODO: Still need to be changed */}
-      <div className="mt-20">
+      <div className="bg-gradient-to-b from-black to-blue mt-20">
         <District />
       </div>
 

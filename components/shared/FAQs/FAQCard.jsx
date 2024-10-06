@@ -12,8 +12,8 @@ const FAQCard = () => {
     <div className="w-full ">
       <Accordion type="single" collapsible>
         <AccordionItem value="item-1">
-          <AccordionTrigger className="font-bold">Lorem ipsum dolor sit amet ?</AccordionTrigger>
-          <AccordionContent>
+          <AccordionTrigger className="header-4">Lorem ipsum dolor sit amet ?</AccordionTrigger>
+          <AccordionContent className="paragraph-2">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore
             quam possimus asperiores iste dolores sed ut quia, eveniet similique
             cumque tenetur, temporibus facilis aspernatur doloremque amet
