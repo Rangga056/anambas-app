@@ -153,7 +153,7 @@
 															<td class="pad">
 																<div style="color:#40507a;font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:16px;line-height:120%;text-align:left;mso-line-height-alt:19.2px;">
 																	<p style="margin: 0;">Username&nbsp; &nbsp; : {{ $login['username'] }}</p>
-																	<p style="margin: 0;">role&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: {{ $login['username'] }}</p>
+																	<p style="margin: 0;">role&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: {{ $login['role'] }}</p>
 																	<p style="margin: 0;">Password&nbsp; &nbsp; &nbsp;: {{ $login['password']}}</p>
 																	<p style="margin: 0;">email&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : {{ $login['email'] }}</p>
 																</div>
