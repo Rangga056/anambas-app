@@ -4,11 +4,13 @@ import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
 import DistrictCard from "./DistrictCard";
 
+import "../../../../app/globals.css";
+
 //TODO: This component currently uses temporary placeholder contents
 //TODO: This compoent not yet responsive
 const District = () => {
   return (
-    <div className="max-w-screen-2xl mx-auto bg-gradient-to-b from-[#102230] to-[#236476] p-10 min-h-[700px]">
+    <div className="max-w-screen-2xl mx-auto bg-district p-10 min-h-[700px]">
       <div className="container">
         <div className="w-full flex items-center justify-between text-white">
           <SectionTag

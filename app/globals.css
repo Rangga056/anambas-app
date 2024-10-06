@@ -66,6 +66,13 @@
   body {
     @apply bg-background text-foreground;
   }
+  .bg-district {
+    background-image: linear-gradient(
+      to bottom,
+      rgb(18, 34, 48), 
+      rgb(35, 100, 118) 
+    );
+  }
 }
 
 @layer utilities {

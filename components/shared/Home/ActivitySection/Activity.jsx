@@ -13,7 +13,7 @@ const Activity = () => {
           href={"/"}
           className="flex items-center gap-x-4 capitalize text-lg"
         >
-          Show More <FaArrowRight />
+          show more <FaArrowRight />
         </Link>
       </div>
 
