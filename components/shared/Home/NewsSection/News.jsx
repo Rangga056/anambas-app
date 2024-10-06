@@ -16,7 +16,7 @@ const News = () => {
           href={"/news"}
           className="flex items-center gap-x-4 capitalize text-lg"
         >
-          see more <FaArrowRight />
+          Show More <FaArrowRight />
         </Link>
       </div>
       <div className="bg-custom-gray rounded-xl px-10 py-16">
@@ -25,9 +25,9 @@ const News = () => {
           {/*TODO: This needs to be updated when the final data is obtain */}
           <div className="rounded-lg flex flex-col md:w-1/2">
             <div className="w-[550px] h-[400px] bg-slate-100 rounded-tl-xl rounded-tr-xl" />
-            <div className="md:w-[550px] flex flex-col items-start gap-y-[.25em] px-6 py-8 bg-slate-400 rounded-br-xl rounded-bl-xl">
-              <p className="text-sm uppercase font-thin">hot news</p>
-              <h2 className="uppercase text-2xl font-semibold">news title</h2>
+            <div className="md:w-[550px] flex flex-col items-start gap-y-[.25em] px-6 py-8 rounded-br-xl rounded-bl-xl">
+              <p className="text-sm uppercase font-thin"> Penerbit <span className="mx-2">&bull;</span>dd/mm/yyyy</p>
+              <h2 className="uppercase text-2xl font-semibold">NEWS ITEM LOREM IPSUM DOLOR SIT AMET </h2>
               <p className="text-xl text-balance">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut

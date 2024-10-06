@@ -9,7 +9,8 @@ const FAQ = () => {
       <div className="w-full flex items-center justify-between">
         <SectionTag name={"frequently asked questions"} />
       </div>
-      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 items-center justify-between gap-4">
+      <div className="mt-10  items-center justify-between gap-4">
+        <FAQCard />
         <FAQCard />
         <FAQCard />
         <FAQCard />

@@ -1,5 +1,5 @@
 import Hero from "@/components/shared/News/Hero";
-import LattestNews from "@/components/shared/News/LattestNewsSection/LattestNews";
+import LattestNews from "@/components/shared/Activity/LattestNewsSection/LattestNews";
 import SectionTag from "@/components/shared/SectionTag";
 import React from "react";
 
