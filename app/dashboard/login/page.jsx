@@ -48,6 +48,7 @@ const LoginPage = () => {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       username: "",
+      password: "",
     },
   });
 
@@ -82,9 +83,7 @@ const LoginPage = () => {
                 name="username"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="paragraph-3 md:paragraph-2">
-                      Username
-                    </FormLabel>
+                    <FormLabel className="paragraph-3">Username</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Username"
@@ -101,7 +100,7 @@ const LoginPage = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem className="relative">
-                    <FormLabel className="flex-between paragraph-3 md:paragraph-2">
+                    <FormLabel className="flex-between paragraph-3">
                       Password{" "}
                       <Link
                         href={"dashboard/login/forgot-password"}
@@ -136,7 +135,7 @@ const LoginPage = () => {
                 Login
               </Button>
               <Link
-                href={"/dashboard/register"}
+                href={"/register"}
                 className="w-full flex-center body md:paragraph-2 text-center"
               >
                 <p>

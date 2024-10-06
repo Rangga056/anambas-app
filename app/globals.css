@@ -117,7 +117,7 @@
   }
 
   .paragraph-3 {
-    @apply font-inter text-lg;
+    @apply font-inter text-lg leading-6;
   }
 }
 
