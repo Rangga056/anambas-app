@@ -135,7 +135,7 @@ const LoginPage = () => {
                 Login
               </Button>
               <Link
-                href={"/register"}
+                href={"/dashboard/register"}
                 className="w-full flex-center body md:paragraph-2 text-center"
               >
                 <p>

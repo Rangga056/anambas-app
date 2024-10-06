@@ -8,7 +8,7 @@ import DistrictCard from "./DistrictCard";
 //TODO: This compoent not yet responsive
 const District = () => {
   return (
-    <div className="max-w-screen-2xl mx-auto bg-custom-black p-10 min-h-[700px]">
+    <div className="max-w-screen-2xl mx-auto bg-black p-10 min-h-[700px]">
       <div className="container">
         <div className="w-full flex items-center justify-between text-white">
           <SectionTag
