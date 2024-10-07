@@ -150,7 +150,7 @@ const RegisterPage = () => {
                     </FormControl>
                     <span
                       disabled={false}
-                      className="absolute bg-transparent hover:bg-transparent text-blue text-xl p-3 rounded-lg uppercase w-10  right-1 top-7 cursor-pointer"
+                      className="absolute bg-transparent hover:bg-transparent text-blue text-xl p-3 rounded-lg uppercase w-10  right-1 top-6 cursor-pointer"
                       onClick={togglePassword}
                     >
                       {passwordType === "password" ? <FaEye /> : <FaEyeSlash />}
@@ -177,7 +177,7 @@ const RegisterPage = () => {
                     </FormControl>
                     <span
                       disabled={false}
-                      className="absolute bg-transparent hover:bg-transparent text-blue text-xl p-3 rounded-lg uppercase w-10  right-1 top-7 cursor-pointer"
+                      className="absolute bg-transparent hover:bg-transparent text-blue text-xl p-3 rounded-lg uppercase w-10  right-1 top-6 cursor-pointer"
                       onClick={toggleVerifyPassword}
                     >
                       {verifiyPasswordType === "password" ? (
