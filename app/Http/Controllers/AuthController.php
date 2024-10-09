@@ -12,6 +12,7 @@ use App\Mail\register;
 use App\Mail\login;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -97,6 +98,7 @@ class AuthController extends Controller
             'token' => $token,
         ]);
     }
+    
 
     public function logout(Request $request)
     {
@@ -220,6 +222,26 @@ class AuthController extends Controller
         return response()->json([
             'data' => $users
         ]);
+}
+
+public function forgotpass(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'identifier' => 'required|string', 
+    ]);
+    $user = User::where('username', $request->identifier)
+    ->orWhere('email', $request->identifier)
+    ->first();
+
+if (!$user) {
+return response()->json(['message' => 'User not found'], 404);
+}
+
+$otp = Str::random(6);
+
+Mail::to($user->email)->send(new passwordotp($otp));
+
+return response()->json(['message' => 'OTP sent to your email']);
 }
 }
 
