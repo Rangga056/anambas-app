@@ -47,12 +47,20 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/editfaq/{id}', [district::class, 'editfaq']);
     Route::post('/deletefaq/{id}', [district::class, 'deletefaq']);
 
-    // Manage Activity
+    // Manage Site Activity
+    Route::get('/useractivity', [ActivityController::class, 'datauser']);
     Route::get('/activity', [ActivityController::class, 'activitydata']);
+    Route::get('/hotnews', [ActivityController::class, 'datahotnews']);
+    Route::post('/newactivity', [ActivityController::class, 'addactivity']);
+    Route::post('/newhotnews', [ActivityController::class, 'addhotnews']);
+    Route::post('/editactivity/{id}', [ActivityController::class, 'editactivity']);
+    Route::post('/edithotnews/{id}', [ActivityController::class, 'edithotnews']);
+    Route::post('/deleteactivity/{id}', [ActivityController::class, 'deleteactivity']);
+    Route::post('/deletehotnews/{id}', [ActivityController::class, 'deletehotnews']);
+    
 
 });
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
-Route::get('/datauser', [AuthController::class, 'datauser'])->middleware('auth:sanctum');
 
 
