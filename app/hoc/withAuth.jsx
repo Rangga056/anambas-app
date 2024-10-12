@@ -17,7 +17,7 @@ const withAuth = (Component, requiredRole) => {
       if (!isAuthenticated && !isLoading) {
         router.push("/dashboard/login");
       } else if (isAuthenticated && role !== requiredRole && !isLoading) {
-        router.push("/unauthorized");
+        router.push("/403");
       }
     }, [isAuthenticated, role, isLoading]);
 

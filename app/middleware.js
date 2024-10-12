@@ -18,7 +18,7 @@ export function middleware(req) {
     url.pathname.startsWith("/dashboard/super-admin") &&
     role !== "super admin"
   ) {
-    url.pathname = "/unauthorized";
+    url.pathname = "/403";
     return NextResponse.redirect(url);
   }
 
@@ -26,7 +26,7 @@ export function middleware(req) {
     url.pathname.startsWith("/dashboard/site-admin") &&
     role !== "site admin"
   ) {
-    url.pathname = "/unauthorized";
+    url.pathname = "/403";
     return NextResponse.redirect(url);
   }
 
@@ -34,7 +34,7 @@ export function middleware(req) {
     url.pathname.startsWith("/dashboard/district-admin") &&
     role !== "district admin"
   ) {
-    url.pathname = "/unauthorized";
+    url.pathname = "/403";
     return NextResponse.redirect(url);
   }
 
