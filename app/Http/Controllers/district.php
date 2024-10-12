@@ -13,7 +13,7 @@ class district extends Controller
 {
     public function datauser()
     {
-        $users = User::where('role', 'district_admin')->get();
+        $users = User::where('role', 'site_admin')->get();
         return response()->json([
             'data' => $users
         ]);
