@@ -30,7 +30,7 @@ const UnauthorizePage = () => {
               variant="link"
               className="text-blue body font-poppins py-0 md:py-2 px-1 h-[25px] active:scale-95 underline transition-transform delay-250 ease-linear"
             >
-              <Link href={"/dashboard/login"} className="text-blue">
+              <Link href={"/login"} className="text-blue">
                 Log in
               </Link>
             </Button>
