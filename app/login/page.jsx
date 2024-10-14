@@ -103,7 +103,7 @@ const LoginPage = () => {
                     <FormLabel className="flex-between paragraph-3">
                       Password{" "}
                       <Link
-                        href={"dashboard/login/forgot-password"}
+                        href={"/login/forgot-password"}
                         className="text-neutral-700 opacity-85 hover:text-black hover:opacity-100 transition-colors delay-150 "
                       >
                         Forgot?
@@ -135,7 +135,7 @@ const LoginPage = () => {
                 Login
               </Button>
               <Link
-                href={"/dashboard/register"}
+                href={"/register"}
                 className="w-full flex-center body md:paragraph-2 text-center"
               >
                 <p>

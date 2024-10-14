@@ -197,7 +197,7 @@ const RegisterPage = () => {
                 Sign Up
               </Button>
               <Link
-                href={"/dashboard/login"}
+                href={"/login"}
                 className="w-full flex-center body md:paragraph-2 text-center"
               >
                 <p>
