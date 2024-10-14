@@ -12,3 +12,4 @@ const SiteAdminPage = () => {
 };
 
 export default withAuth(SiteAdminPage, "site admin");
+// export default SiteAdminPage;
