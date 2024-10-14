@@ -15,7 +15,7 @@ const withAuth = (Component, requiredRole) => {
 
     useEffect(() => {
       if (!isAuthenticated && !isLoading) {
-        router.push("/dashboard/login");
+        router.push("/login");
       } else if (isAuthenticated && role !== requiredRole && !isLoading) {
         router.push("/403");
       }
