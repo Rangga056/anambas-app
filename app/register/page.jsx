@@ -31,8 +31,8 @@ const FormSchema = z
       .max(36, {
         message: "Username must not exceed 36 characters",
       }),
-    password: z.string().min(1),
-    verifyPassword: z.string().min(1),
+    password: z.string().min(8),
+    verifyPassword: z.string().min(8),
   })
   .refine((data) => data.password === data.verifyPassword, {
     message: "Passwords do not match",

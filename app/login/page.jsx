@@ -18,6 +18,8 @@ import {
 import { Input } from "@/components/ui/input";
 import React from "react";
 import Link from "next/link";
+import { Login } from "@/lib/actions/user.actions";
+import { useRouter } from "next/navigation";
 
 // Zod form schema
 const FormSchema = z.object({
@@ -29,10 +31,11 @@ const FormSchema = z.object({
     .max(36, {
       message: "Username must not exceed 36 characters",
     }),
-  password: z.string().min(1),
+  password: z.string().min(8),
 });
 
 const LoginPage = () => {
+  const router = useRouter();
   const [passwordType, setPasswordType] = useState("password");
   const { toast } = useToast();
 
@@ -52,16 +55,47 @@ const LoginPage = () => {
     },
   });
 
-  function onSubmit(data) {
-    // TODO: Change to fetch POST login to API
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  async function onSubmit(data) {
+    const result = await Login(data);
+
+    console.log(data);
+    console.log(result);
+
+    if (result.success) {
+      // Store token in local storage
+      localStorage.setItem("token", result.token);
+
+      // Show success toast
+      toast({
+        title: "Login Successful",
+        description: "Redirecting to the dashboard...",
+      });
+
+      const userRole = result.role; // Get the role from the result
+
+      // Redirect to the appropriate dashboard based on the role
+      switch (userRole) {
+        case "super admin":
+          router.push("/dashboard/super-admin");
+          break;
+        case "site admin":
+          router.push("/dashboard/site-admin");
+          break;
+        case "district admin":
+          router.push("/dashboard/district-admin");
+          break;
+        default:
+          console.error("Unknown role:", userRole);
+          break;
+      }
+    } else {
+      // Show error message
+      toast({
+        title: "Login Failed",
+        description: result.error,
+        variant: "destructive",
+      });
+    }
   }
 
   return (

@@ -13,7 +13,7 @@ export const useAuthStore = create((set) => ({
 
   fetchUser: async () => {
     try {
-      const res = await axios.get("/api/auth"); // Example API endpoint to get user data
+      const res = await axios.get("/auth"); // Example API endpoint to get user data
 
       if (res.status === 200) {
         const data = res.data;
