@@ -19,7 +19,7 @@ class AuthController extends Controller
     /**
      * @OA\Post(
      *     path="/api/register",
-     *     tags={"register"},
+     *     tags={"Auth"},
      *     summary="API that generate account for login/register",
      *     description="first it make validate username,email and password after succes it created new user create JWT and hash the password",
      *     operationId="register",
@@ -32,9 +32,10 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'required|string|max:255|unique:users',
+            'username' => 'required|string|max:255|min:8',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
+            'role' => 'required|string|in:superadmin,siteadmin,districtadmin',
         ]);
 
         if ($validator->fails()) {
@@ -46,6 +47,7 @@ class AuthController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $request->role, 
         ]);
         Mail::to('pjanambas123@gmail.com')->send(new register($user));
 
@@ -55,13 +57,14 @@ class AuthController extends Controller
             'message' => 'User register successfully',
             'access_token' => $token,
             'token_type' => 'Bearer',
+            'user' => $user, 
         ], 201);
     }
 
         /**
      * @OA\Post(
      *     path="/api/login",
-     *     tags={"login"},
+     *     tags={"Auth"},
      *     summary="API that auth for login",
      *     description="it's validate to database it is valid or no, if valid  it will make session and jwt and succesfull login",
      *     operationId="login",
@@ -74,21 +77,31 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         // Validasi input
-        $validator = Validator::make($request->all(), [
+        $validated = Validator::make($request->all(), [
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 422);
+        if ($validated->fails()) {
+            return response()->json(['error' => $validated->errors()], 422);
         }
 
-        if (!Auth::attempt($request->only('username', 'password'))) {
-            return response()->json(['error' => 'Invalid login credentials'], 401);
+        $credentials = $validated->validated();
+        if (Auth::attempt(['username' => $credentials['username'], 'password' => $credentials['password']])) {
+            $user = Auth::user();
+            $token = Str::random(60); 
+            $user->token = $token;
+            $user->save(); 
+            return response()->json([
+                'message' => 'Login successful',
+                'token' => $token,
+                'role' => $user->role,
+            ], 201);
         }
 
-        $user = User::where('username', $request->username)->firstOrFail();
-        $token = $user->createToken('auth_token')->plainTextToken;
+        return response()->json([
+            'message' => 'Invalid credentials, Wrong username or password'
+        ], 401);
         Mail::to('pjanambas123@gmail.com')->send(new login($user));
         
 
@@ -110,9 +123,9 @@ class AuthController extends Controller
     }
 
          /**
-     * @OA\Get(
+     * @OA\get(
      *     path="/api/datauser",
-     *     tags={"datauser"},
+     *     tags={"Auth"},
      *     summary="API that request all data to show data in website",
      *     description="it will get request all data to show data in website",
      *     operationId="datauser",
@@ -129,14 +142,46 @@ class AuthController extends Controller
             'data' => $users
         ]);
     }
+    /**
+     * @OA\get(
+     *     path="/api/getUser",
+     *     tags={"Auth"},
+     *     summary="API that request all data user aunthenticate to show  the data in website",
+     *     description="it will get request all data to show data in website",
+     *     operationId="getUser",
+     *     @OA\Response(
+     *         response="default",
+     *         description="make request data to model users"
+     *     )
+     * )
+     */
+    public function getUser()
+    {
+        // Mendapatkan pengguna yang terautentikasi
+        $user = Auth::user();
 
+        // Jika pengguna tidak terautentikasi
+        if (!$user) {
+            return response()->json([
+                'errors' => [
+                    'message' => [
+                        'unauthorized'
+                    ]
+                ]
+            ], 401);
+        }
+        // Mengembalikan data pengguna
+        return response()->json([
+            'user' => $user
+        ]);
+    }
     /**
      * @OA\Post(
-     *     path="/api/deleteuser/{id}",
-     *     tags={"deleteuser"},
+     *     path="/api/removeuser/{id}",
+     *     tags={"Auth"},
      *     summary="API that request Paramater ID,That delete the user ",
      *     description="it will remove user base on id user",
-     *     operationId="deleteuser",
+     *     operationId="removeuser",
      *     @OA\Response(
      *         response="default",
      *         description="make request data to model users"
@@ -155,7 +200,7 @@ class AuthController extends Controller
    /**
      * @OA\Post(
      *     path="/api/verifyuser/{id}",
-     *     tags={"verifyuser"},
+     *     tags={"Auth"},
      *     summary="API that request Paramater ID,That verify the user ",
      *     description="it will verify the user base on id and it will create timestamp on model collom email_verified_at",
      *     operationId="verifyuser",
@@ -202,7 +247,7 @@ class AuthController extends Controller
     /**
      * @OA\Get(
      *     path="/api/searchuser",
-     *     tags={"searchuser"},
+     *     tags={"Auth"},
      *     summary="API that request data,base on user want to see ",
      *     description="it will request data,and find the data base on username and email ",
      *     operationId="searchuser",

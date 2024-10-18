@@ -11,9 +11,22 @@ use App\Models\Highlight;
 
 class district extends Controller
 {
+            /**
+     * @OA\get(
+     *     path="/api/userdistrict",
+     *     tags={"District"},
+     *     summary="API that request all data to show data in website",
+     *     description="it will get request all data to show data in website",
+     *     operationId="District",
+     *     @OA\Response(
+     *         response="default",
+     *         description="make request data to model user"
+     *     )
+     * )
+     */
     public function datauser()
     {
-        $users = User::where('role', 'site_admin')->get();
+        $users = User::where('role', 'districtadmin')->get();
         return response()->json([
             'data' => $users
         ]);
