@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Middleware\ApiAuthMiddleware;
 use App\Http\Controllers\district;
 use App\Http\Controllers\ActivityController;
 use Illuminate\Http\Request;
@@ -17,9 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
 
 Route::get('/',function(){
     return response()->json([
@@ -32,7 +31,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/datauser', [AuthController::class, 'datauser']);
     Route::post('deleteuser/{id}', [AuthController::class, 'removeuser']);
     Route::post('verifyuser/{id}', [AuthController::class, 'verifyuser']);
-    Route::get('/filteruser', [AuthController::class, 'filterdateuser']);
     Route::post('/searchuser', [AuthController::class, 'searchuser']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
@@ -59,6 +57,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/deletehotnews/{id}', [ActivityController::class, 'deletehotnews']);
     
 
+});
+Route::middleware(ApiAuthMiddleware::class)->group(function () {
+    Route::delete('/logout', [AuthController::class, 'logout']);
+    Route::get('/user', [AuthController::class, 'getUser']);
 });
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);

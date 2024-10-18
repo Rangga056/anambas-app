@@ -8,7 +8,7 @@ use Illuminate\Routing\Controller as BaseController;
 
 
 /**
- * @OA\info(title="Documentasi API anambas", version="1.0")
+ * @OA\Info(title="Documentasi API anambas", version="1.0")
  */
 class Controller extends BaseController
 {

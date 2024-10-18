@@ -5,10 +5,145 @@
         "version": "1.0"
     },
     "paths": {
+        "/api/useractivity": {
+            "get": {
+                "tags": [
+                    "sitectivity"
+                ],
+                "summary": "API that request all data to show data in website",
+                "description": "it will get request all data to show data in website",
+                "operationId": "useractivity",
+                "responses": {
+                    "default": {
+                        "description": "make request data to model user"
+                    }
+                }
+            }
+        },
+        "/api/activitydata": {
+            "get": {
+                "tags": [
+                    "sitectivity"
+                ],
+                "summary": "API that request all data to show data in website",
+                "description": "it will get request all data to show data in website",
+                "operationId": "activitydata",
+                "responses": {
+                    "default": {
+                        "description": "make request data to model District"
+                    }
+                }
+            }
+        },
+        "/api/hotnews": {
+            "get": {
+                "tags": [
+                    "siteactivty"
+                ],
+                "summary": "API that request all data to show data in website",
+                "description": "it will get request all data to show data in website",
+                "operationId": "hotnews",
+                "responses": {
+                    "default": {
+                        "description": "make request data to model siteactivty"
+                    }
+                }
+            }
+        },
+        "/api/newactivity": {
+            "post": {
+                "tags": [
+                    "siteactivty"
+                ],
+                "summary": "API that create activity ",
+                "description": "it will send data to database",
+                "operationId": "newactivity",
+                "responses": {
+                    "default": {
+                        "description": "sen data to model siteactivty"
+                    }
+                }
+            }
+        },
+        "/api/editactivity/{id}": {
+            "post": {
+                "tags": [
+                    "siteactivty"
+                ],
+                "summary": "API that edit activity data ",
+                "description": "it will edit data",
+                "operationId": "editactivity",
+                "responses": {
+                    "default": {
+                        "description": "it will request data to edit from model activity"
+                    }
+                }
+            }
+        },
+        "/api/deleteactivity/{id}": {
+            "post": {
+                "tags": [
+                    "siteactivty"
+                ],
+                "summary": "API that delete activity data ",
+                "description": "it will delete data",
+                "operationId": "deleteactivity",
+                "responses": {
+                    "default": {
+                        "description": "it will request data to delete data from model activity"
+                    }
+                }
+            }
+        },
+        "/api/newhotnews": {
+            "post": {
+                "tags": [
+                    "siteactivty"
+                ],
+                "summary": "API that create hotnews ",
+                "description": "it will send data to database",
+                "operationId": "newhotnews",
+                "responses": {
+                    "default": {
+                        "description": "send data to model siteactivty"
+                    }
+                }
+            }
+        },
+        "/api/edithotnews/{id}": {
+            "post": {
+                "tags": [
+                    "siteactivty"
+                ],
+                "summary": "API that edit hotnews data ",
+                "description": "it will edit data",
+                "operationId": "edithotnews",
+                "responses": {
+                    "default": {
+                        "description": "it will request data to edit from model hotnews"
+                    }
+                }
+            }
+        },
+        "/api/deletehotnews/{id}": {
+            "post": {
+                "tags": [
+                    "siteactivty"
+                ],
+                "summary": "API that delete hotnews data ",
+                "description": "it will delete data",
+                "operationId": "deletehotnews",
+                "responses": {
+                    "default": {
+                        "description": "it will request data to delete data from model hotnews"
+                    }
+                }
+            }
+        },
         "/api/register": {
             "post": {
                 "tags": [
-                    "register"
+                    "Auth"
                 ],
                 "summary": "API that generate account for login/register",
                 "description": "first it make validate username,email and password after succes it created new user create JWT and hash the password",
@@ -23,7 +158,7 @@
         "/api/login": {
             "post": {
                 "tags": [
-                    "login"
+                    "Auth"
                 ],
                 "summary": "API that auth for login",
                 "description": "it's validate to database it is valid or no, if valid  it will make session and jwt and succesfull login",
@@ -38,7 +173,7 @@
         "/api/datauser": {
             "get": {
                 "tags": [
-                    "datauser"
+                    "Auth"
                 ],
                 "summary": "API that request all data to show data in website",
                 "description": "it will get request all data to show data in website",
@@ -50,14 +185,29 @@
                 }
             }
         },
-        "/api/deleteuser/{id}": {
+        "/api/getUser": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "API that request all data user aunthenticate to show  the data in website",
+                "description": "it will get request all data to show data in website",
+                "operationId": "getUser",
+                "responses": {
+                    "default": {
+                        "description": "make request data to model users"
+                    }
+                }
+            }
+        },
+        "/api/removeuser/{id}": {
             "post": {
                 "tags": [
-                    "deleteuser"
+                    "Auth"
                 ],
                 "summary": "API that request Paramater ID,That delete the user ",
                 "description": "it will remove user base on id user",
-                "operationId": "deleteuser",
+                "operationId": "removeuser",
                 "responses": {
                     "default": {
                         "description": "make request data to model users"
@@ -68,7 +218,7 @@
         "/api/verifyuser/{id}": {
             "post": {
                 "tags": [
-                    "verifyuser"
+                    "Auth"
                 ],
                 "summary": "API that request Paramater ID,That verify the user ",
                 "description": "it will verify the user base on id and it will create timestamp on model collom email_verified_at",
@@ -83,7 +233,7 @@
         "/api/searchuser": {
             "get": {
                 "tags": [
-                    "searchuser"
+                    "Auth"
                 ],
                 "summary": "API that request data,base on user want to see ",
                 "description": "it will request data,and find the data base on username and email ",
@@ -94,32 +244,39 @@
                     }
                 }
             }
+        },
+        "/api/userdistrict": {
+            "get": {
+                "tags": [
+                    "District"
+                ],
+                "summary": "API that request all data to show data in website",
+                "description": "it will get request all data to show data in website",
+                "operationId": "District",
+                "responses": {
+                    "default": {
+                        "description": "make request data to model user"
+                    }
+                }
+            }
         }
     },
     "tags": [
         {
-            "name": "register",
-            "description": "register"
+            "name": "sitectivity",
+            "description": "sitectivity"
         },
         {
-            "name": "login",
-            "description": "login"
+            "name": "siteactivty",
+            "description": "siteactivty"
         },
         {
-            "name": "datauser",
-            "description": "datauser"
+            "name": "Auth",
+            "description": "Auth"
         },
         {
-            "name": "deleteuser",
-            "description": "deleteuser"
-        },
-        {
-            "name": "verifyuser",
-            "description": "verifyuser"
-        },
-        {
-            "name": "searchuser",
-            "description": "searchuser"
+            "name": "District",
+            "description": "District"
         }
     ]
 }
