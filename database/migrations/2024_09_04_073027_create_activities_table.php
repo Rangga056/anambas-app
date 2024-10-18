@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('activities', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('userID');
+            $table->uuid('id')->primary();
+            $table->uuid('userID');
             $table->foreign('userID')->references('id')->on('users')->cascadeOnDelete();
             $table->string('HeroIMG')->nullable(false);
             $table->string('HeroTitle')->nullable(false);

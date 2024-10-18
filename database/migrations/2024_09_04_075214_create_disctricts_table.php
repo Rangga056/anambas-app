@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('disctricts', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('userID');
-            $table->unsignedBigInteger('highlightID');
+        Schema::create('districts', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->uuid('userID');
+            $table->uuid('highlightID');
             $table->foreign('userID')->references('id')->on('users')->cascadeOnDelete();
             $table->foreign('highlightID')->references('id')->on('highlights')->cascadeOnDelete();
             $table->string('heroIMG')->nullable(false);
-            $table->string('disctrictName')->nullable(false);
-            $table->string('disctrictDescription')->nullable(false);
+            $table->string('districtName')->nullable(false);
+            $table->string('districtDescription')->nullable(false);
             $table->string('location')->nullable(false);
             $table->timestamps();
         });

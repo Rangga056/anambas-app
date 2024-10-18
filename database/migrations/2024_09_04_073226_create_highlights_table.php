@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('highlights', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('highlightIMG')->nullable(false);
             $table->string('highlightTitle')->nullable(false);
             $table->string('highlightDescription')->nullable(false);
