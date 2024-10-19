@@ -20,6 +20,7 @@ import React from "react";
 import Link from "next/link";
 import { Login } from "@/lib/actions/user.actions";
 import { useRouter } from "next/navigation";
+import { useAuthStore } from "../stores/authStore"; // Adjust the import path based on your folder structure
 
 // Zod form schema
 const FormSchema = z.object({
@@ -61,9 +62,15 @@ const LoginPage = () => {
     console.log(data);
     console.log(result);
 
-    if (result.success) {
+    if (result.success === true) {
       // Store token in local storage
       localStorage.setItem("token", result.token);
+      // Update Zustand store with authentication status and role
+      useAuthStore.getState().setAuth({
+        isAuthenticated: true,
+        role: result.role,
+        token: result.token,
+      });
 
       // Show success toast
       toast({
@@ -75,13 +82,13 @@ const LoginPage = () => {
 
       // Redirect to the appropriate dashboard based on the role
       switch (userRole) {
-        case "super admin":
+        case "superadmin":
           router.push("/dashboard/super-admin");
           break;
-        case "site admin":
+        case "siteadmin":
           router.push("/dashboard/site-admin");
           break;
-        case "district admin":
+        case "districtadmin":
           router.push("/dashboard/district-admin");
           break;
         default:

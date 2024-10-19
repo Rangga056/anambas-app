@@ -11,4 +11,4 @@ const SuperAdminPage = () => {
   );
 };
 
-export default withAuth(SuperAdminPage, "super admin");
+export default withAuth(SuperAdminPage, "superadmin");
