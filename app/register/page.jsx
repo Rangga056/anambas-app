@@ -106,23 +106,23 @@ const RegisterPage = () => {
     <div className="flex-center min-h-[100dvh] w-full lg:bg-none bg-hero-beach-img bg-cover bg-center">
       <div className="flex-center gap-x-4 container p-0 md:px-8">
         <div className="hidden lg:flex lg:w-1/2 w-full bg-hero-beach-img bg-cover bg-center h-[90svh] max-h-[770px] rounded-xl" />
-        <div className="lg:w-1/2 w-full mx-6 p-6 sm:px-0 sm:w-4/5 flex-center flex-col bg-white py-16 rounded-3xl z-10 shadow-md lg:shadow-none max-h-[100vh]">
+        <div className="lg:w-1/2 w-full mx-6 p-6 sm:px-0 sm:w-4/5 flex-center flex-col bg-white py-6 rounded-3xl z-10 shadow-md lg:shadow-none max-h-[100vh]">
           <Form {...form} className="w-full h-full min-w-[455px]">
             {/* LOGO */}
             <div className="w-full flex justify-start items-center gap-x-3 max-w-[455px]">
               <div className="w-10 aspect-square rounded-full bg-black" />
-              <span className="uppercase header-3  ">logo</span>
+              <span className="uppercase header-4 md:header-3">logo</span>
             </div>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="w-full max-w-[455px] space-y-3 md:space-y-4 mt-6 flex flex-col justify-center"
+              className="w-full max-w-[455px] space-y-2 md:space-y-4 mt-4 md:mt-6 flex flex-col justify-center"
             >
               <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="paragraph-3">Email</FormLabel>
+                    <FormLabel className="body md:paragraph-3">Email</FormLabel>
                     <FormControl>
                       <Input
                         type="email"
@@ -140,7 +140,9 @@ const RegisterPage = () => {
                 name="username"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="paragraph-3">Username</FormLabel>
+                    <FormLabel className="body md:paragraph-3">
+                      Username
+                    </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="username"
@@ -157,7 +159,7 @@ const RegisterPage = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem className="relative">
-                    <FormLabel className="flex-between paragraph-3">
+                    <FormLabel className="flex-between body md:paragraph-3">
                       Password{" "}
                     </FormLabel>
                     <FormControl>
@@ -184,7 +186,7 @@ const RegisterPage = () => {
                 name="verifyPassword"
                 render={({ field }) => (
                   <FormItem className="relative">
-                    <FormLabel className="flex-between paragraph-3">
+                    <FormLabel className="flex-between body md:paragraph-3">
                       Verify Password{" "}
                     </FormLabel>
                     <FormControl>
@@ -214,27 +216,29 @@ const RegisterPage = () => {
                 control={form.control}
                 name="role"
                 render={({ field }) => (
-                  <FormItem className="space-y-2 text-center">
-                    <FormLabel>Select Role</FormLabel>
+                  <FormItem className="text-center">
+                    <FormLabel className="body md:paragraph-3">
+                      Select Role
+                    </FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
                         defaultValue={field.value}
-                        className="flex-center gap-x-3"
+                        className="flex-center gap-x-3 pb-2"
                       >
-                        <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormItem className="flex items-center space-x-2 space-y-0">
                           <FormControl>
                             <RadioGroupItem value="siteadmin" />
                           </FormControl>
-                          <FormLabel className="font-normal">
+                          <FormLabel className="text-sm md:paragraph-3">
                             Site Admin
                           </FormLabel>
                         </FormItem>
-                        <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormItem className="flex items-center space-x-2 space-y-0">
                           <FormControl>
                             <RadioGroupItem value="districtadmin" />
                           </FormControl>
-                          <FormLabel className="font-normal">
+                          <FormLabel className="text-sm md:paragraph-3">
                             District Admin
                           </FormLabel>
                         </FormItem>
@@ -246,7 +250,7 @@ const RegisterPage = () => {
               />
               <Button
                 type="submit"
-                className="rounded-2xl w-full h-[45px] paragraph-3 md:paragraph-2 bg-blue text-white hover:bg-white hover:text-blue hover:border border-blue active:scale-95 transition-all delay-250 ease-linear"
+                className="rounded-2xl w-full h-[45px] body md:paragraph-3 bg-blue text-white hover:bg-white hover:text-blue hover:border border-blue active:scale-95 transition-all delay-250 ease-linear"
               >
                 Sign Up
               </Button>

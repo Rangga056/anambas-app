@@ -28,14 +28,21 @@ const Sidebar = () => {
     <div className="w-full h-full flex flex-col items-center gap-y-6">
       <Image
         src={Profile}
+        alt="user profile"
         className="w-12 h-12 rounded-full contain object-center"
       />
       {navItems.map((item) => (
         <Link
           href={item.route}
+          key={item.route}
           className="p-2 rounded-full flex-center bg-white"
         >
-          <Image src={item.icon.src} width={24} height={24} />
+          <Image
+            src={item.icon.src}
+            width={24}
+            height={24}
+            alt="sidebar icon"
+          />
         </Link>
       ))}
     </div>

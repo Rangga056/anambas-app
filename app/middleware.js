@@ -3,11 +3,11 @@ import { useAuthStore } from "@/store/useAuthStore"; // Adjust the import path b
 
 export async function middleware(req) {
   const url = req.nextUrl; // Get the current request URL
-  const { isAuthenticated, role } = useAuthStore.getState(); // Get Zustand store state
+  const { isAuthenticated, role, fetchUser } = useAuthStore.getState(); // Get Zustand store state
 
   // Fetch user data if not already authenticated
-  if (!authStore.isAuthenticated) {
-    await authStore.fetchUser(); // Ensure the user is fetched
+  if (!isAuthenticated) {
+    await fetchUser(); // Ensure the user is fetched
   }
 
   // Redirect to login if the user is not authenticated

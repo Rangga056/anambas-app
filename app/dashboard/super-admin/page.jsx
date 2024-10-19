@@ -1,6 +1,6 @@
 "use client";
 
-import withAuth from "../../hoc/withAuth";
+import withAuth from "@/app/hoc/withAuth";
 import React from "react";
 
 const SuperAdminPage = () => {
