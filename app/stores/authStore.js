@@ -2,48 +2,36 @@ import { create } from "zustand";
 import axios from "axios";
 
 // Set the base URL for all axios requests
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL; //TODO: Replace with your Laravel API URL in .env.local
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL; // Replace with your Laravel API URL
 
 export const useAuthStore = create((set) => ({
   isAuthenticated: false,
   role: "",
-  token: "", // Add token to state
+  token: "",
   isLoading: true,
-  setAuth: ({ isAuthenticated, role, token }) =>
-    set({ isAuthenticated, role, token }),
-  logout: () =>
-    set({ isAuthenticated: false, role: "", token: "", isLoading: false }),
 
-  fetchUser: async () => {
-    const token = localStorage.getItem("token"); // Get token from localStorage
+  initialize: () => {
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
 
-    if (!token) {
-      set({ isAuthenticated: false, role: "", token: "", isLoading: false });
-      return;
-    }
-
-    try {
-      const res = await axios.get("/user", {
-        headers: {
-          Authorization: `Bearer ${token}`, // Pass token in Authorization header
-        },
-      });
-
-      if (res.status === 200) {
-        const data = res.data;
-
-        set({
-          isAuthenticated: true,
-          role: data.role,
-          token,
-          isLoading: false,
-        });
-      } else {
-        set({ isAuthenticated: false, role: "", token: "", isLoading: false });
-      }
-    } catch (error) {
-      console.error("Failed to fetch user data:", error);
+    if (token) {
+      set({ isAuthenticated: true, token, role, isLoading: false });
+    } else {
       set({ isAuthenticated: false, role: "", token: "", isLoading: false });
     }
   },
+
+  setAuth: ({ isAuthenticated, role, token }) => {
+    set({ isAuthenticated, role, token });
+    if (isAuthenticated) {
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", role);
+    } else {
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+    }
+  },
+
+  logout: () =>
+    set({ isAuthenticated: false, role: "", token: "", isLoading: false }),
 }));
