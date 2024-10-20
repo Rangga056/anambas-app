@@ -59,8 +59,8 @@ const LoginPage = () => {
   async function onSubmit(data) {
     const result = await Login(data);
 
-    console.log(data);
-    console.log(result);
+    // console.log(data);
+    // console.log(result);
 
     if (result.success === true) {
       // Store token in local storage

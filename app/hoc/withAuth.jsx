@@ -15,24 +15,46 @@ const withAuth = (Component, requiredRole) => {
     const router = useRouter();
 
     useEffect(() => {
-      // Fetch user if not authenticated
-      if (!isAuthenticated) {
-        fetchUser();
-      }
-    }, [isAuthenticated, fetchUser]); // Added fetchUser to dependency array
+      let isMounted = true; // Track if the component is mounted
 
-    useEffect(() => {
-      // Redirect if not authenticated or if role doesn't match
-      if (!isLoading) {
+      const handleAuthCheck = () => {
+        // Only fetch user if not authenticated
         if (!isAuthenticated) {
-          router.push("/403");
-          setAuth({ isLoading: false }); // Set loading to false when redirecting to login
-        } else if (role !== requiredRole) {
-          router.push("/403");
-          setAuth({ isLoading: false }); // Set loading to false when redirecting to 403
+          setAuth({ isLoading: true }); // Start loading state
+          fetchUser(); // Fetch user data
+          if (isMounted) {
+            setAuth({ isLoading: false }); // Stop loading state after fetching
+          }
         }
-      }
-    }, [isAuthenticated, role, isLoading, router, requiredRole, setAuth]); // Added setAuth to dependency array
+
+        // After fetching, check the current authentication state and role
+        if (isMounted) {
+          if (!isAuthenticated) {
+            console.log("Redirecting to /403: Not Authenticated");
+            router.push("/403");
+          } else if (role !== requiredRole) {
+            console.log(
+              `Redirecting to /403: Role mismatch. Expected: ${requiredRole}, but got: ${role}`
+            );
+            router.push("/403");
+          }
+        }
+      };
+
+      handleAuthCheck(); // Call the authentication check
+
+      return () => {
+        isMounted = false; // Cleanup function to mark the component as unmounted
+      };
+    }, [
+      isAuthenticated,
+      role,
+      isLoading,
+      fetchUser,
+      router,
+      requiredRole,
+      setAuth,
+    ]);
 
     if (isLoading) {
       return <div>Loading...</div>; // Show loading state
@@ -43,8 +65,8 @@ const withAuth = (Component, requiredRole) => {
       return <Component {...props} />;
     }
 
-    return null; // Optionally render nothing if not authenticated
+    return null; // Optionally render nothing if not authenticated or role doesn't match
   };
 };
 
-export default withAuth; // Ensure this line is here
+export default withAuth;
