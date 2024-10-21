@@ -54,8 +54,8 @@ const Footer = () => {
       </div>
 
       {/* copyright */}
-      <div className="bg-neutral-400 h-8 py-10 flex items-center mt-16">
-        <p className="text-xl container">
+      <div className="bg-blue h-8 py-10 flex items-center mt-16">
+        <p className=" text-xl pl-24 text-white container">
           Copyright © 2022 Pemerintah Provinsi Kepulauan Riau
         </p>
       </div>
