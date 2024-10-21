@@ -5,7 +5,7 @@ import homeIcon from "@/public/assets/icons/home.png";
 export const superAdminNav = [
   {
     icon: homeIcon,
-    route: "/site-admin",
+    route: "/dashboard/super-admin",
   },
 ];
 
@@ -13,7 +13,7 @@ export const superAdminNav = [
 export const siteAdminNav = [
   {
     icon: homeIcon,
-    route: "/site-admin",
+    route: "/dashboard/site-admin",
   },
 ];
 
@@ -21,6 +21,6 @@ export const siteAdminNav = [
 export const districtAdminNav = [
   {
     icon: homeIcon,
-    route: "/site-admin",
+    route: "/dashboard/district-admin",
   },
 ];

@@ -7,7 +7,7 @@ import { navLinks } from "../../../constants/Shared";
 
 const NavItems = () => {
   const pathname = usePathname();
-  console.log(pathname);
+  // console.log(pathname);
   return (
     <ul className="hidden md:flex items-center gap-x-12 text-neutral-500">
       {navLinks.map((link) => {
@@ -15,7 +15,9 @@ const NavItems = () => {
         return (
           <li
             key={link.index}
-            className={`${isActive ? "text-black" : ""} font-medium uppercase text-xl`}
+            className={`${
+              isActive ? "text-black" : ""
+            } font-medium uppercase text-xl`}
           >
             <Link href={link.path}>{link.label}</Link>
           </li>

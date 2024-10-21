@@ -18,6 +18,8 @@ import {
 import { Input } from "@/components/ui/input";
 import React from "react";
 import Link from "next/link";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Register } from "@/lib/actions/user.actions";
 
 // Zod form schema
 const FormSchema = z
@@ -33,6 +35,9 @@ const FormSchema = z
       }),
     password: z.string().min(8),
     verifyPassword: z.string().min(8),
+    role: z.enum(["siteadmin", "districtadmin"], {
+      required_error: "You need to select a role.",
+    }),
   })
   .refine((data) => data.password === data.verifyPassword, {
     message: "Passwords do not match",
@@ -42,6 +47,7 @@ const FormSchema = z
 const RegisterPage = () => {
   const [passwordType, setPasswordType] = useState("password");
   const [verifiyPasswordType, setVerifiyPasswordType] = useState("password");
+
   const { toast } = useToast();
 
   const togglePassword = () => {
@@ -67,42 +73,56 @@ const RegisterPage = () => {
       username: "",
       password: "",
       verifyPassword: "",
+      role: "",
     },
   });
 
-  function onSubmit(data) {
-    // TODO: Change to fetch POST register to API
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  async function onSubmit(data) {
+    try {
+      const result = await Register(data);
+
+      if (result.success) {
+        toast({
+          title: "Registration Successful!",
+          description: "You have registered successfully.",
+        });
+      } else {
+        toast({
+          title: "Registration Failed",
+          description: result.error || "An error occurred. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred. Please try again later.",
+        variant: "destructive",
+      });
+    }
   }
 
   return (
     <div className="flex-center min-h-[100dvh] w-full lg:bg-none bg-hero-beach-img bg-cover bg-center">
       <div className="flex-center gap-x-4 container p-0 md:px-8">
         <div className="hidden lg:flex lg:w-1/2 w-full bg-hero-beach-img bg-cover bg-center h-[90svh] max-h-[770px] rounded-xl" />
-        <div className="lg:w-1/2 w-full mx-6 p-6 sm:px-0 sm:w-4/5 flex-center flex-col bg-white py-16 rounded-3xl z-10 shadow-md lg:shadow-none max-h-[100vh]">
+        <div className="lg:w-1/2 w-full mx-6 p-6 sm:px-0 sm:w-4/5 flex-center flex-col bg-white py-6 rounded-3xl z-10 shadow-md lg:shadow-none max-h-[100vh]">
           <Form {...form} className="w-full h-full min-w-[455px]">
             {/* LOGO */}
             <div className="w-full flex justify-start items-center gap-x-3 max-w-[455px]">
               <div className="w-10 aspect-square rounded-full bg-black" />
-              <span className="uppercase header-3  ">logo</span>
+              <span className="uppercase header-4 md:header-3">logo</span>
             </div>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="w-full max-w-[455px] space-y-3 md:space-y-4 mt-6 flex flex-col justify-center"
+              className="w-full max-w-[455px] space-y-2 md:space-y-4 mt-4 md:mt-6 flex flex-col justify-center"
             >
               <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="paragraph-3">Email</FormLabel>
+                    <FormLabel className="body md:paragraph-3">Email</FormLabel>
                     <FormControl>
                       <Input
                         type="email"
@@ -120,7 +140,9 @@ const RegisterPage = () => {
                 name="username"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="paragraph-3">Username</FormLabel>
+                    <FormLabel className="body md:paragraph-3">
+                      Username
+                    </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="username"
@@ -137,7 +159,7 @@ const RegisterPage = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem className="relative">
-                    <FormLabel className="flex-between paragraph-3">
+                    <FormLabel className="flex-between body md:paragraph-3">
                       Password{" "}
                     </FormLabel>
                     <FormControl>
@@ -164,7 +186,7 @@ const RegisterPage = () => {
                 name="verifyPassword"
                 render={({ field }) => (
                   <FormItem className="relative">
-                    <FormLabel className="flex-between paragraph-3">
+                    <FormLabel className="flex-between body md:paragraph-3">
                       Verify Password{" "}
                     </FormLabel>
                     <FormControl>
@@ -190,9 +212,45 @@ const RegisterPage = () => {
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="role"
+                render={({ field }) => (
+                  <FormItem className="text-center">
+                    <FormLabel className="body md:paragraph-3">
+                      Select Role
+                    </FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="flex-center gap-x-3 pb-2"
+                      >
+                        <FormItem className="flex items-center space-x-2 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="siteadmin" />
+                          </FormControl>
+                          <FormLabel className="text-sm md:paragraph-3">
+                            Site Admin
+                          </FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-2 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="districtadmin" />
+                          </FormControl>
+                          <FormLabel className="text-sm md:paragraph-3">
+                            District Admin
+                          </FormLabel>
+                        </FormItem>
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <Button
                 type="submit"
-                className="rounded-2xl w-full h-[45px] paragraph-3 md:paragraph-2 bg-blue text-white hover:bg-white hover:text-blue hover:border border-blue active:scale-95 transition-all delay-250 ease-linear"
+                className="rounded-2xl w-full h-[45px] body md:paragraph-3 bg-blue text-white hover:bg-white hover:text-blue hover:border border-blue active:scale-95 transition-all delay-250 ease-linear"
               >
                 Sign Up
               </Button>

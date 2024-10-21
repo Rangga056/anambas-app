@@ -11,5 +11,5 @@ const SiteAdminPage = () => {
   );
 };
 
-export default withAuth(SiteAdminPage, "site admin");
+export default withAuth(SiteAdminPage, "siteadmin");
 // export default SiteAdminPage;

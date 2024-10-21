@@ -4,33 +4,38 @@ import { useEffect } from "react";
 
 const withAuth = (Component, requiredRole) => {
   return function AuthWrapped(props) {
-    const { isAuthenticated, role, isLoading, fetchUser } = useAuthStore();
+    const { isAuthenticated, role, isLoading, initialize } = useAuthStore(
+      (state) => ({
+        isAuthenticated: state.isAuthenticated,
+        role: state.role,
+        isLoading: state.isLoading,
+        initialize: state.initialize,
+      })
+    );
     const router = useRouter();
 
     useEffect(() => {
-      if (!isAuthenticated) {
-        fetchUser();
-      }
-    }, [isAuthenticated]);
+      initialize(); // Initialize auth state
 
-    useEffect(() => {
-      if (!isAuthenticated && !isLoading) {
-        router.push("/login");
-      } else if (isAuthenticated && role !== requiredRole && !isLoading) {
-        router.push("/403");
+      // Redirect logic
+      if (!isLoading) {
+        if (!isAuthenticated) {
+          router.push("/403"); // Not authenticated
+        } else if (role !== requiredRole) {
+          router.push("/403"); // Role mismatch
+        }
       }
-    }, [isAuthenticated, role, isLoading]);
+    }, [isAuthenticated, role, isLoading, router, requiredRole, initialize]);
 
     if (isLoading) {
-      return <div>Loading...</div>;
+      return <div>Loading...</div>; // Show loading state
     }
 
-    if (isAuthenticated && role === requiredRole) {
-      return <Component {...props} />;
-    }
-
-    return null;
+    // Render the wrapped component if authenticated and role matches
+    return isAuthenticated && role === requiredRole ? (
+      <Component {...props} />
+    ) : null;
   };
 };
 
-export default withAuth; // Ensure this line is here
+export default withAuth;

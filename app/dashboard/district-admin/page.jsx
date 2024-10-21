@@ -11,4 +11,4 @@ const DistrictAdmin = () => {
   );
 };
 
-export default withAuth(DistrictAdmin, "district admin");
+export default withAuth(DistrictAdmin, "districtadmin");
