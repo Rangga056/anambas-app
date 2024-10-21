@@ -11,8 +11,8 @@ export const useAuthStore = create((set) => ({
   isLoading: true,
 
   initialize: () => {
-    const token = localStorage.getItem("token");
-    const role = localStorage.getItem("role");
+    const token = sessionStorage.getItem("token");
+    const role = sessionStorage.getItem("role");
 
     if (token) {
       set({ isAuthenticated: true, token, role, isLoading: false });
@@ -24,11 +24,11 @@ export const useAuthStore = create((set) => ({
   setAuth: ({ isAuthenticated, role, token }) => {
     set({ isAuthenticated, role, token });
     if (isAuthenticated) {
-      localStorage.setItem("token", token);
-      localStorage.setItem("role", role);
+      sessionStorage.setItem("token", token);
+      sessionStorage.setItem("role", role);
     } else {
-      localStorage.removeItem("token");
-      localStorage.removeItem("role");
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("role");
     }
   },
 

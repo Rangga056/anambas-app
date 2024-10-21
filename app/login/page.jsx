@@ -64,7 +64,8 @@ const LoginPage = () => {
 
     if (result.success === true) {
       // Store token in local storage
-      localStorage.setItem("token", result.token);
+      sessionStorage.setItem("token", result.token);
+
       // Update Zustand store with authentication status and role
       useAuthStore.getState().setAuth({
         isAuthenticated: true,
