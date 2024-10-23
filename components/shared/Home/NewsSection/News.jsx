@@ -1,62 +1,109 @@
+"use client";
 import React from "react";
+import { useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import NewsCard from "./NewsCard";
 import SectionTag from "../../SectionTag";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import gambar1 from "@/public/assets/images/actbanner.png";
+import Image from "next/image";
 
-//TODO: This component currently uses temporary placeholder contents
-//TODO: This compoent not yet responsive
-const News = () => {
+const NewsComponent = () => {
+  const router = useRouter();
+  const [selectedNews, setSelectedNews] = useState(0);
+
+  const newsData = [
+    {
+      imageUrl: gambar1, // Ganti dengan URL gambar
+      title: "NEWS TITLE LOREM IPSUM DOLOR SIT AMET",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
+      date: "dd/mm/yy",
+      publisher: "Penerbit",
+    },
+    {
+      imageUrl: gambar1, // Ganti dengan URL gambar
+      title: "NEWS TITLE LOREM IPSUM DOLOR SIT AMET",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
+      date: "dd/mm/yy",
+      publisher: "Penerbit",
+    },
+    {
+      imageUrl: gambar1, // Ganti dengan URL gambar
+      title: "NEWS TITLE LOREM IPSUM DOLOR SIT AMET",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
+      date: "dd/mm/yy",
+      publisher: "Penerbit",
+    },
+  ];
+
   return (
     <div className="container">
-      <div className="w-full flex items-center justify-between">
+      <div className="header-3-regular w-full flex items-center justify-between">
         <SectionTag name={"updated news"} />
         <Link
           href={"/news"}
-          className="flex items-center gap-x-4 capitalize text-lg"
+          className="flex items-center gap-x-4 capitalize paragraph-2"
         >
-          see more <FaArrowRight />
+          show more <FaArrowRight />
         </Link>
       </div>
-      <div className="bg-custom-gray rounded-xl px-10 py-16">
-        <div className="flex items-start gap-x-4">
-          {/* left section */}
-          {/*TODO: This needs to be updated when the final data is obtain */}
-          <div className="rounded-lg flex flex-col md:w-1/2">
-            <div className="w-[550px] h-[400px] bg-slate-100 rounded-tl-xl rounded-tr-xl" />
-            <div className="md:w-[550px] flex flex-col items-start gap-y-[.25em] px-6 py-8 bg-slate-400 rounded-br-xl rounded-bl-xl">
-              <p className="text-sm uppercase font-thin">hot news</p>
-              <h2 className="uppercase text-2xl font-semibold">news title</h2>
-              <p className="text-xl text-balance">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam,
-              </p>
-            </div>
-          </div>
-
-          {/* right section */}
-          <div className="md:w-1/2">
-            <div className="flex items-end flex-col">
-              <p className="uppercase text-2xl font-semibold text-right">
-                lattest news
-              </p>
-              <Separator className="w-full mt-2 border border-black" />
-            </div>
-
-            {/* News Card Compoent */}
-            {/*TODO: Waiting the final data and put in json or object array and map to each card */}
-            <div>
-              <NewsCard />
-              <NewsCard />
-              <NewsCard />
-            </div>
-          </div>
+      <div className="flex justify-between items-center"></div>
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-2 justify-center">
+        <div className="col-span-3">
+          <Image
+            src={newsData[selectedNews].imageUrl}
+            alt={newsData[selectedNews].title}
+            className="w-[780px] h-[403px] object-cover rounded-lg mb-2"
+          />
+          <p className="body text-black">Penerbit &#8226; dd/mm/yy</p>
+          <h3 className="header-3-bold text-black">
+            NEWS TITLE LOREM IPSUM DOLOR SIT AMET, CONSECTETUR
+          </h3>
+          <p className="paragraph-2 text-black mt-2 w-full">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit...
+          </p>
+        </div>
+        <div className="flex flex-col md:col-span-2 gap-4">
+          {newsData.map((news, index) => (
+            <Link
+              href={
+                "https://anambaskab.go.id/berita/organisasi-perangkat-daerah/prestasi-penurunan-stunting-di-daerah-kabupaten-kepulauan-anambas-raih-penghargaan-dari-kepala-bkkbn-ri"
+              }
+            >
+              <div
+                key={index}
+                className="flex items-center gap-4 cursor-pointer"
+              >
+                <Image
+                  src={news.imageUrl}
+                  alt={news.title}
+                  className="w-[180px] h-[180px] object-cover rounded-lg"
+                />
+                <div>
+                  <p className="body text-black">
+                    {news.publisher} &#8226; {news.date}
+                  </p>
+                  <h4 className="header-4 text-black">
+                    {news.title}
+                  </h4>
+                </div>
+              </div>
+              <Separator className="mt-4" />
+            </Link>
+          ))}
         </div>
       </div>
     </div>
   );
 };
 
-export default News;
+export default NewsComponent;

@@ -6,10 +6,10 @@ import SectionTag from "../SectionTag";
 const FAQ = () => {
   return (
     <div className="container w-full">
-      <div className="w-full flex items-center justify-between">
+      <div className="w-full flex items-center justify-between header-3-regular">
         <SectionTag name={"frequently asked questions"} />
       </div>
-      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 items-center justify-between gap-4">
+      <div className="mt-10 grid grid-cols-1 md:grid-cols-1 items-center justify-between gap-4 header-4">
         <FAQCard />
         <FAQCard />
         <FAQCard />
@@ -18,8 +18,8 @@ const FAQ = () => {
         <FAQCard />
         <FAQCard />
         <FAQCard />
+        </div>
       </div>
-    </div>
   );
 };
 
