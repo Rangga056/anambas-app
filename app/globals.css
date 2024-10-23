@@ -96,8 +96,12 @@
   .header-2 {
     @apply font-inter font-bold text-3xl;
   }
-  .header-3 {
+  .header-3-bold {
     @apply font-inter font-bold text-2xl;
+  }
+  }
+  .header-3-regular {
+    @apply font-inter font-normal text-2xl;
   }
 
   .header-4 {
@@ -119,7 +123,6 @@
   .paragraph-3 {
     @apply font-inter text-lg leading-6;
   }
-}
 
 .custom-pagination {
   --swiper-pagination-color: white;
