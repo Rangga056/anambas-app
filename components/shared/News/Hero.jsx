@@ -26,7 +26,7 @@ const Hero = () => {
         <p className="body text-black">Penerbit &#8226; dd/mm/yy</p>
         <h1 className="header-2 uppercase" >lorem ipsum dolor sit amet</h1>
           <p className="paragraph-2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
             ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
             aliquip ex ea commodo consequat. Duis aute irure dolor in
