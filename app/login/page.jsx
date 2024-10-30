@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import React from "react";
 import Link from "next/link";
-import { Login } from "@/lib/actions/user.actions";
+import { Login } from "@/lib/actions/user.actions"; // Updated import path if necessary
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "../stores/authStore"; // Adjust the import path based on your folder structure
 
@@ -40,12 +40,12 @@ const LoginPage = () => {
   const [passwordType, setPasswordType] = useState("password");
   const { toast } = useToast();
 
+  const setAuth = useAuthStore((state) => state.setAuth);
+
   const togglePassword = () => {
-    if (passwordType === "password") {
-      setPasswordType("text");
-      return;
-    }
-    setPasswordType("password");
+    setPasswordType((prevType) =>
+      prevType === "password" ? "text" : "password"
+    );
   };
 
   const form = useForm({
@@ -58,16 +58,11 @@ const LoginPage = () => {
 
   async function onSubmit(data) {
     const result = await Login(data);
-
-    // console.log(data);
-    // console.log(result);
+    console.log(result);
 
     if (result.success === true) {
-      // Store token in local storage
-      sessionStorage.setItem("token", result.token);
-
-      // Update Zustand store with authentication status and role
-      useAuthStore.getState().setAuth({
+      // Use setAuth from Zustand store
+      setAuth({
         isAuthenticated: true,
         role: result.role,
         token: result.token,
@@ -163,7 +158,7 @@ const LoginPage = () => {
                     </FormControl>
                     <span
                       disabled={false}
-                      className="absolute bg-transparent hover:bg-transparent text-blue text-xl p-3 rounded-lg uppercase w-10  right-1 top-6 cursor-pointer"
+                      className="absolute bg-transparent hover:bg-transparent text-blue text-xl p-3 rounded-lg uppercase w-10 right-1 top-6 cursor-pointer"
                       onClick={togglePassword}
                     >
                       {passwordType === "password" ? <FaEye /> : <FaEyeSlash />}
@@ -183,7 +178,6 @@ const LoginPage = () => {
                 className="w-full flex-center body md:paragraph-3 text-center"
               >
                 <p>
-                  {" "}
                   Don’t Have an Account Register
                   <Button
                     variant="link"
