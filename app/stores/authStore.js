@@ -1,9 +1,10 @@
 import { create } from "zustand";
 import axios from "axios";
-import Cookies from "js-cookie"; // Make sure to import js-cookie
+import Cookies from "js-cookie"; // Import js-cookie
 
 // Set the base URL for all axios requests
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL; // Replace with your Laravel API URL
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
+axios.defaults.withCredentials = true; // Add this line to enable credentials
 
 export const useAuthStore = create((set) => ({
   isAuthenticated: false,
@@ -16,6 +17,7 @@ export const useAuthStore = create((set) => ({
     const role = Cookies.get("role"); // Get role from cookies
 
     if (token) {
+      axios.defaults.headers.common["Authorization"] = token;
       set({ isAuthenticated: true, token, role, isLoading: false });
     } else {
       set({ isAuthenticated: false, role: "", token: "", isLoading: false });
@@ -23,13 +25,17 @@ export const useAuthStore = create((set) => ({
   },
 
   setAuth: ({ isAuthenticated, role, token }) => {
-    set({ isAuthenticated, role, token });
+    const bearerToken = `Bearer ${token}`; // Prefix the token with 'Bearer '
+    set({ isAuthenticated, role, token: bearerToken });
+
     if (isAuthenticated) {
-      Cookies.set("token", token, { expires: 1 }); // Set token in cookies
-      Cookies.set("role", role, { expires: 1 }); // Set role in cookies
+      Cookies.set("token", bearerToken, { expires: 1 / 24 }); // Set token in cookies with 'Bearer'
+      Cookies.set("role", role, { expires: 1 / 24 }); // Set role in cookies
+      axios.defaults.headers.common["Authorization"] = bearerToken; // Set Bearer token in headers
     } else {
       Cookies.remove("token"); // Remove token from cookies
       Cookies.remove("role"); // Remove role from cookies
+      delete axios.defaults.headers.common["Authorization"];
     }
   },
 
@@ -37,5 +43,6 @@ export const useAuthStore = create((set) => ({
     set({ isAuthenticated: false, role: "", token: "", isLoading: false });
     Cookies.remove("token"); // Ensure token is removed on logout
     Cookies.remove("role"); // Ensure role is removed on logout
+    delete axios.defaults.headers.common["Authorization"];
   },
 }));

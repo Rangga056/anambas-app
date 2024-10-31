@@ -7,7 +7,7 @@ export default function DashboardLayout({ children }) {
       <nav className="bg-black w-20 p-4 py-12 fixed min-h-screen">
         <Sidebar />
       </nav>
-      <main className="ml-20 p-12">{children}</main>
+      <main className="ml-20 p-12 w-full">{children}</main>
     </div>
   );
 }
