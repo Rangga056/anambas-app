@@ -1,8 +1,6 @@
-"use client";
-
 import { Input } from "@/components/ui/input";
 import { DataTable } from "@/components/shared/Dashboard/SiteAdmin/DataTable/DataTable";
-import { columns } from "@/components/shared/Dashboard/SiteAdmin/DataTable/Colums";
+// import { columns } from "@/components/shared/Dashboard/SiteAdmin/DataTable/Colums";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
@@ -16,29 +14,14 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
+import { columns } from "@/components/shared/Dashboard/SiteAdmin/DataTable/Colums";
+import { getUser } from "@/constants/Dashboard";
 
-const data = [
-  {
-    id: "728ed52f",
-    amount: 100,
-    status: "pending",
-    email: "m@example.com",
-  },
-  {
-    id: "728ed52f",
-    amount: 100,
-    status: "pending",
-    email: "m@example.com",
-  },
-  {
-    id: "728ed52f",
-    amount: 100,
-    status: "pending",
-    email: "m@example.com",
-  },
-];
 const SiteAdminPage = () => {
   // const data = await getData();
+  const data = getUser;
+  console.log(data);
+
   axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL; // Replace with your Laravel API URL
   axios.defaults.withCredentials = true; // Add this line to enable credentials
 
@@ -79,13 +62,13 @@ const SiteAdminPage = () => {
       </header>
 
       {/* Main Content */}
-      <main className="mt-20">
+      <div className="mt-20">
         {/* Data Table Component */}
         <DataTable columns={columns} data={data} />
-      </main>
-      <Button onClick={handleClick} className="mt-8 rounded-lg" size="lg">
+      </div>
+      {/* <Button onClick={handleClick} className="mt-8 rounded-lg" size="lg">
         testing
-      </Button>
+      </Button> */}
     </div>
   );
 };

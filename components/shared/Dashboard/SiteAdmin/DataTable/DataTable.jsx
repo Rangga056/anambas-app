@@ -15,6 +15,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 export function DataTable({ columns, data }) {
   const table = useReactTable({
@@ -45,7 +51,7 @@ export function DataTable({ columns, data }) {
           ))}
         </TableHeader>
         <TableBody>
-          {table.getRowModel().rows?.length ? (
+          {table.getRowModel().rows.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
@@ -56,6 +62,20 @@ export function DataTable({ columns, data }) {
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
+                <Dialog>
+                  <DialogTrigger asChild className="mt-2">
+                    <button className="text-gray-500 hover:text-black header-4">
+                      &#x2026; {/* Ellipsis character */}
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogTitle>
+                      Details for {row.original.username}
+                    </DialogTitle>
+                    <p>Action: {row.original.action}</p>
+                    <p>Date: {row.original.date}</p>
+                  </DialogContent>
+                </Dialog>
               </TableRow>
             ))
           ) : (

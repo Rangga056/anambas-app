@@ -2,15 +2,15 @@
 
 export const columns = [
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "username",
+    header: "Username",
   },
   {
-    accessorKey: "email",
-    header: "Email",
+    accessorKey: "action",
+    header: "Action",
   },
   {
-    accessorKey: "amount",
-    header: "Amount",
+    accessorKey: "date",
+    header: "Date",
   },
 ];
