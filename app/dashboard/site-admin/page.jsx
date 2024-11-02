@@ -35,7 +35,7 @@ const SiteAdminPage = () => {
       {/* Header */}
       <header className="flex-between">
         {/* Bread crumbs */}
-        <Breadcrumb className="paragraph-3 font-medium text-black opacity-100">
+        <Breadcrumb className="paragraph-2 font-medium text-black opacity-100">
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
@@ -43,7 +43,6 @@ const SiteAdminPage = () => {
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbEllipsis />
           </BreadcrumbList>
         </Breadcrumb>
         {/* Search Bar */}

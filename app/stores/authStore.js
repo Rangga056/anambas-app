@@ -29,8 +29,8 @@ export const useAuthStore = create((set) => ({
     set({ isAuthenticated, role, token: bearerToken });
 
     if (isAuthenticated) {
-      Cookies.set("token", bearerToken, { expires: 1 / 24 }); // Set token in cookies with 'Bearer'
-      Cookies.set("role", role, { expires: 1 / 24 }); // Set role in cookies
+      Cookies.set("token", bearerToken, { expires: 1 }); // Set token in cookies with 'Bearer'
+      Cookies.set("role", role, { expires: 1 }); // Set role in cookies
       axios.defaults.headers.common["Authorization"] = bearerToken; // Set Bearer token in headers
     } else {
       Cookies.remove("token"); // Remove token from cookies

@@ -4,6 +4,7 @@ export const columns = [
   {
     accessorKey: "username",
     header: "Username",
+    sortingFn: "alphanumeric",
   },
   {
     accessorKey: "action",
@@ -12,5 +13,6 @@ export const columns = [
   {
     accessorKey: "date",
     header: "Date",
+    sortingFn: "datetime",
   },
 ];
