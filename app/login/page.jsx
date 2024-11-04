@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import React from "react";
 import Link from "next/link";
-import { Login } from "@/lib/actions/user.actions"; // Updated import path if necessary
+import { Login } from "@/lib/actions/auth/user.actions"; // Updated import path if necessary
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "../stores/authStore"; // Adjust the import path based on your folder structure
 

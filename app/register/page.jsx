@@ -19,7 +19,7 @@ import { Input } from "@/components/ui/input";
 import React from "react";
 import Link from "next/link";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Register } from "@/lib/actions/user.actions";
+import { Register } from "@/lib/actions/auth/user.actions";
 
 // Zod form schema
 const FormSchema = z

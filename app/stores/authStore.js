@@ -46,3 +46,12 @@ export const useAuthStore = create((set) => ({
     delete axios.defaults.headers.common["Authorization"];
   },
 }));
+
+// Axios request interceptor to ensure Authorization header is set
+axios.interceptors.request.use((config) => {
+  const token = Cookies.get("token");
+  if (token) {
+    config.headers["Authorization"] = token;
+  }
+  return config;
+});

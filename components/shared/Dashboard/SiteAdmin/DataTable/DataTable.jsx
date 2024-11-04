@@ -128,10 +128,8 @@ export function DataTable({ columns, data }) {
                     <p className="text-sm text-muted-foreground">
                       Date: {row.original.date}
                     </p>
-                    <DialogDescription>
-                      <p className="body md:paragraph-3 text-black font-poppins">
-                        {row.original.desc}
-                      </p>
+                    <DialogDescription className="body md:paragraph-3 text-black font-poppins">
+                      {row.original.desc}
                     </DialogDescription>
                   </DialogContent>
                 </Dialog>
