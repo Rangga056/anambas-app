@@ -27,7 +27,6 @@ import {
 import { useEffect, useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import dayjs from "dayjs";
 
 function Filter({ column }) {
   const columnFilterValue = column.getFilterValue();
