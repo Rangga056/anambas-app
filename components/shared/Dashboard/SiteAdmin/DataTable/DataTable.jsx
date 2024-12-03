@@ -5,6 +5,7 @@ import {
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
+  getFilteredRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -23,17 +24,44 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import dayjs from "dayjs";
+
+function Filter({ column }) {
+  const columnFilterValue = column.getFilterValue();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  return (
+    isClient && (
+      <Input
+        value={columnFilterValue ?? ""}
+        onChange={(e) => column.setFilterValue(e.target.value)}
+        placeholder="Search..."
+        className="w-full border rounded p-1"
+      />
+    )
+  );
+}
 
 export function DataTable({ columns, data }) {
   const [sorting, setSorting] = useState([{ id: "date", desc: true }]);
+  const [columnFilters, setColumnFilters] = useState([]);
+
   const table = useReactTable({
     data,
     columns,
     state: {
       sorting,
+      columnFilters,
     },
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(), // Enable sorting functionality
@@ -60,38 +88,54 @@ export function DataTable({ columns, data }) {
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <TableHead
-                  key={header.id}
-                  onClick={() => {
-                    // Toggle the sorting state for the specific column
-                    const isCurrentlyDesc = sorting.find(
-                      (sort) => sort.id === header.id && sort.desc === true
-                    );
+                <TableHead key={header.id} className="px-2">
+                  <div className="flex items-start flex-col gap-y-2 py-2">
+                    {/* Render column header */}
+                    <h3 className="md:text-lg pl-1">
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </h3>
+                    <div className="flex items-center justify-between w-full">
+                      {/* Filter input */}
+                      {typeof window !== "undefined" &&
+                        header.column.getCanFilter() && (
+                          <Filter column={header.column} />
+                        )}
+                      {/* Sorting icon */}
+                      <div
+                        onClick={() => {
+                          // Toggle the sorting state for the specific column
+                          const isCurrentlyDesc = sorting.find(
+                            (sort) =>
+                              sort.id === header.id && sort.desc === true
+                          );
 
-                    // Update sorting state to toggle between ascending and descending
-                    setSorting([{ id: header.id, desc: !isCurrentlyDesc }]);
-                  }} // Toggle sorting on click
-                  className="cursor-pointer relative"
-                >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                  {/* Always display sorting icon */}
-                  {header.column.getIsSorted() ? (
-                    header.column.getIsSorted() === "asc" ? (
-                      <ChevronUp className="header-4 text-black absolute  last:right-4 inset-y-3" />
-                    ) : (
-                      <ChevronDown className="header-4 text-black absolute  last:right-4 inset-y-3" />
-                    )
-                  ) : header.id === "date" ? (
-                    // Show default icon for date column
-                    <ChevronDown className="header-4 text-black absolute  last:right-4 inset-y-3" />
-                  ) : (
-                    <ChevronUp className="header-4 text-black absolute  last:right-4 inset-y-3" />
-                  )}
+                          // Update sorting state to toggle between ascending and descending
+                          setSorting([
+                            { id: header.id, desc: !isCurrentlyDesc },
+                          ]);
+                        }} // Toggle sorting on click
+                        className="cursor-pointer"
+                      >
+                        {header.column.getIsSorted() ? (
+                          header.column.getIsSorted() === "asc" ? (
+                            <ChevronUp className="header-4 text-black ml-2" />
+                          ) : (
+                            <ChevronDown className="header-4 text-black ml-2" />
+                          )
+                        ) : header.id === "date" ? (
+                          // Default sorting icon for date column
+                          <ChevronDown className="header-4 text-black ml-2" />
+                        ) : (
+                          <ChevronUp className="header-4 text-black ml-2" />
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </TableHead>
               ))}
             </TableRow>
