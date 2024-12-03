@@ -29,8 +29,8 @@ export const useAuthStore = create((set) => ({
     set({ isAuthenticated, role, token: bearerToken });
 
     if (isAuthenticated) {
-      Cookies.set("token", bearerToken, { expires: 1 / 24 }); // Set token in cookies with 'Bearer'
-      Cookies.set("role", role, { expires: 1 / 24 }); // Set role in cookies
+      Cookies.set("token", bearerToken, { expires: 1 }); // Set token in cookies with 'Bearer'
+      Cookies.set("role", role, { expires: 1 }); // Set role in cookies
       axios.defaults.headers.common["Authorization"] = bearerToken; // Set Bearer token in headers
     } else {
       Cookies.remove("token"); // Remove token from cookies
@@ -46,3 +46,12 @@ export const useAuthStore = create((set) => ({
     delete axios.defaults.headers.common["Authorization"];
   },
 }));
+
+// Axios request interceptor to ensure Authorization header is set
+axios.interceptors.request.use((config) => {
+  const token = Cookies.get("token");
+  if (token) {
+    config.headers["Authorization"] = token;
+  }
+  return config;
+});

@@ -1,9 +1,11 @@
+"use client";
+
 import { Input } from "@/components/ui/input";
 import { DataTable } from "@/components/shared/Dashboard/SiteAdmin/DataTable/DataTable";
 // import { columns } from "@/components/shared/Dashboard/SiteAdmin/DataTable/Colums";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
+import { RefreshCcw, Search } from "lucide-react";
 import {
   Breadcrumb,
   BreadcrumbEllipsis,
@@ -15,27 +17,35 @@ import {
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
 import { columns } from "@/components/shared/Dashboard/SiteAdmin/DataTable/Colums";
-import { getUser } from "@/constants/Dashboard";
+import { useUserActivityStore } from "@/app/stores/userStore";
+import { useEffect } from "react";
+import { fetchUserActivity } from "@/lib/actions/site-admin/activity.actions";
 
 const SiteAdminPage = () => {
-  // const data = await getData();
-  const data = getUser;
-  console.log(data);
+  const { data, setData } = useUserActivityStore();
 
-  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL; // Replace with your Laravel API URL
-  axios.defaults.withCredentials = true; // Add this line to enable credentials
+  // Define the getData function
+  const getData = async () => {
+    try {
+      const fetchedData = await fetchUserActivity();
+      console.log(fetchedData);
+      setData(fetchedData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  async function handleClick() {
-    const res = await axios.get("/activity");
-    console.log(res.data);
-    console.log("test");
-  }
+  // Fetch data on initial render
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <div>
       {/* Header */}
       <header className="flex-between">
         {/* Bread crumbs */}
-        <Breadcrumb className="paragraph-3 font-medium text-black opacity-100">
+        <Breadcrumb className="paragraph-2 font-medium text-black opacity-100">
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
@@ -43,7 +53,6 @@ const SiteAdminPage = () => {
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbEllipsis />
           </BreadcrumbList>
         </Breadcrumb>
         {/* Search Bar */}
@@ -63,12 +72,21 @@ const SiteAdminPage = () => {
 
       {/* Main Content */}
       <div className="mt-20">
-        {/* Data Table Component */}
-        <DataTable columns={columns} data={data} />
+        <div className="flex items-center gap-3">
+          <Button
+            onClick={getData}
+            className="p-2 rounded-full active:scale-95 transition-transform"
+          >
+            <RefreshCcw className="text-white" />
+          </Button>
+          <span className="paragraph-3">Refresh Data</span>
+        </div>
+        <div className="mt-8">
+          {/* Data Table Component */}
+          <DataTable columns={columns} data={data || []} />
+          {/* {data} */}
+        </div>
       </div>
-      {/* <Button onClick={handleClick} className="mt-8 rounded-lg" size="lg">
-        testing
-      </Button> */}
     </div>
   );
 };
