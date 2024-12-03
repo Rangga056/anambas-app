@@ -21,6 +21,7 @@ import Link from "next/link";
 import { Login } from "@/lib/actions/user.actions"; // Updated import path if necessary
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "../stores/authStore"; // Adjust the import path based on your folder structure
+import { Loader2 } from "lucide-react";
 
 // Zod form schema
 const FormSchema = z.object({
@@ -37,6 +38,8 @@ const FormSchema = z.object({
 
 const LoginPage = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  console.log(loading);
   const [passwordType, setPasswordType] = useState("password");
   const { toast } = useToast();
 
@@ -57,47 +60,56 @@ const LoginPage = () => {
   });
 
   async function onSubmit(data) {
-    const result = await Login(data);
-    console.log(result);
+    setLoading(true);
+    try {
+      const result = await Login(data);
 
-    if (result.success === true) {
-      // Use setAuth from Zustand store
-      setAuth({
-        isAuthenticated: true,
-        role: result.role,
-        token: result.token,
-      });
+      if (result.success) {
+        // Update Zustand store with authentication data
+        setAuth({
+          isAuthenticated: true,
+          role: result.role,
+          token: result.token,
+        });
 
-      // Show success toast
-      toast({
-        title: "Login Successful",
-        description: "Redirecting to the dashboard...",
-      });
+        // Show success toast
+        toast({
+          title: "Login Successful",
+          description: "Redirecting to the dashboard...",
+        });
 
-      const userRole = result.role; // Get the role from the result
-
-      // Redirect to the appropriate dashboard based on the role
-      switch (userRole) {
-        case "superadmin":
-          router.push("/dashboard/super-admin");
-          break;
-        case "siteadmin":
-          router.push("/dashboard/site-admin");
-          break;
-        case "districtadmin":
-          router.push("/dashboard/district-admin");
-          break;
-        default:
-          console.error("Unknown role:", userRole);
-          break;
+        // Redirect based on user role
+        switch (result.role) {
+          case "superadmin":
+            router.push("/dashboard/super-admin");
+            break;
+          case "siteadmin":
+            router.push("/dashboard/site-admin");
+            break;
+          case "districtadmin":
+            router.push("/dashboard/district-admin");
+            break;
+          default:
+            console.error("Unknown role:", result.role);
+            break;
+        }
+      } else {
+        // Show error toast
+        toast({
+          title: "Login Failed",
+          description: result.error,
+          variant: "destructive",
+        });
       }
-    } else {
-      // Show error message
+    } catch (error) {
       toast({
-        title: "Login Failed",
-        description: result.error,
+        title: "An error occurred",
+        description: "Unable to process your login request.",
         variant: "destructive",
       });
+      console.error("Login error:", error);
+    } finally {
+      setLoading(false); // Reset loading state
     }
   }
 
@@ -167,12 +179,27 @@ const LoginPage = () => {
                   </FormItem>
                 )}
               />
-              <Button
-                type="submit"
-                className="rounded-2xl w-full h-[45px] body md:paragraph-2 bg-blue text-white hover:bg-white hover:text-blue hover:border border-blue active:scale-95 transition-all delay-250 ease-linear"
-              >
-                Login
-              </Button>
+              {loading ? (
+                <>
+                  <Button
+                    disabled
+                    size="lg"
+                    className="rounded-2xl w-full h-[45px] body md:paragraph-2 bg-blue text-white hover:bg-white hover:text-blue hover:border border-blue active:scale-95 transition-all delay-250 ease-linear"
+                  >
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Please Wait
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    type="submit"
+                    className="rounded-2xl w-full h-[45px] body md:paragraph-2 bg-blue text-white hover:bg-white hover:text-blue hover:border border-blue active:scale-95 transition-all delay-250 ease-linear"
+                  >
+                    Login
+                  </Button>
+                </>
+              )}
               <Link
                 href={"/register"}
                 className="w-full flex-center body md:paragraph-3 text-center"

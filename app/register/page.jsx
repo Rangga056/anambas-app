@@ -20,6 +20,7 @@ import React from "react";
 import Link from "next/link";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Register } from "@/lib/actions/user.actions";
+import { Loader2 } from "lucide-react";
 
 // Zod form schema
 const FormSchema = z
@@ -45,6 +46,7 @@ const FormSchema = z
   });
 
 const RegisterPage = () => {
+  const [loading, setLoading] = useState(false);
   const [passwordType, setPasswordType] = useState("password");
   const [verifiyPasswordType, setVerifiyPasswordType] = useState("password");
 
@@ -78,6 +80,7 @@ const RegisterPage = () => {
   });
 
   async function onSubmit(data) {
+    setLoading(true);
     try {
       const result = await Register(data);
 
@@ -99,6 +102,8 @@ const RegisterPage = () => {
         description: "An unexpected error occurred. Please try again later.",
         variant: "destructive",
       });
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -248,12 +253,28 @@ const RegisterPage = () => {
                   </FormItem>
                 )}
               />
-              <Button
-                type="submit"
-                className="rounded-2xl w-full h-[45px] body md:paragraph-3 bg-blue text-white hover:bg-white hover:text-blue hover:border border-blue active:scale-95 transition-all delay-250 ease-linear"
-              >
-                Sign Up
-              </Button>
+              {loading ? (
+                <>
+                  <Button
+                    disabled
+                    size="lg"
+                    className="rounded-2xl w-full h-[45px] body md:paragraph-2 bg-blue text-white hover:bg-white hover:text-blue hover:border border-blue active:scale-95 transition-all delay-250 ease-linear"
+                  >
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Please Wait
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    type="submit"
+                    className="rounded-2xl w-full h-[45px] body md:paragraph-3 bg-blue text-white hover:bg-white hover:text-blue hover:border border-blue active:scale-95 transition-all delay-250 ease-linear"
+                  >
+                    Sign Up
+                  </Button>
+                </>
+              )}
+
               <Link
                 href={"/login"}
                 className="w-full flex-center body md:paragraph-2 text-center"
