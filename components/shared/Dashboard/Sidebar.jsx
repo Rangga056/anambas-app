@@ -57,6 +57,7 @@ const Sidebar = () => {
             width={24}
             height={24}
             alt="sidebar icon"
+            className={`${item.route === "/dashboard/site-admin/activity" && "bg-black rounded-full"}`}
           />
         </Link>
       ))}

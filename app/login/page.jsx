@@ -47,7 +47,7 @@ const LoginPage = () => {
 
   const togglePassword = () => {
     setPasswordType((prevType) =>
-      prevType === "password" ? "text" : "password"
+      prevType === "password" ? "text" : "password",
     );
   };
 

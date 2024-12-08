@@ -20,6 +20,7 @@ import React from "react";
 import Link from "next/link";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Register } from "@/lib/actions/auth/user.actions";
+import { Loader2 } from "lucide-react";
 
 // Zod form schema
 const FormSchema = z
@@ -89,6 +90,7 @@ const RegisterPage = () => {
           description: "You have registered successfully.",
         });
       } else {
+        console.log(result.error);
         toast({
           title: "Registration Failed",
           description: result.error || "An error occurred. Please try again.",
