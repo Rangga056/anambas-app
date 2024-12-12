@@ -41,9 +41,9 @@ const SiteAdminPage = () => {
   }, []);
 
   return (
-    <div>
+    <div className="overflow-hidden">
       {/* Header */}
-      <header className="flex-between">
+      <header className="flex-between gap-x-4">
         {/* Bread crumbs */}
         <Breadcrumb className="paragraph-2 font-medium text-black opacity-100">
           <BreadcrumbList>
@@ -56,7 +56,7 @@ const SiteAdminPage = () => {
           </BreadcrumbList>
         </Breadcrumb>
         {/* Search Bar */}
-        <div className="flex rounded-full bg-grey-50 px-2 py-1 border max-w-[500px] flex-1">
+        <div className="hidden md:flex rounded-full bg-grey-50 px-2 py-1 border max-w-[500px] flex-1">
           <Input
             type="text"
             name="search"
@@ -81,10 +81,12 @@ const SiteAdminPage = () => {
           </Button>
           <span className="paragraph-3">Refresh Data</span>
         </div>
-        <div className="mt-8">
-          {/* Data Table Component */}
-          <DataTable columns={columns} data={data || []} />
-          {/* {data} */}
+        <div className="overflow-x-scroll">
+          <div className="mt-8 min-w-max">
+            {/* Data Table Component */}
+            <DataTable columns={columns} data={data || []} />
+            {/* {data} */}
+          </div>
         </div>
       </div>
     </div>

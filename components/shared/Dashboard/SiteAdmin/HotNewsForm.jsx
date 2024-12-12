@@ -54,7 +54,7 @@ const FormSchema = z.object({
   }),
   publisher: z.string().min(1, { message: "Publisher name is required" }),
   date: z.date({
-    required_error: "A date of birth is required.",
+    required_error: "A date is required.",
   }),
   headerImg: z
     .any()
@@ -104,7 +104,10 @@ const HotNewsForm = () => {
               control={form.control}
               name="title"
               render={({ field }) => (
-                <FormItem className="flex items-center">
+                <FormItem
+                  className="flex md:flex-row flex-col
+                  items-start md:items-center"
+                >
                   <FormLabel className="body md:paragraph-2 w-full max-w-[200px]">
                     Judul
                   </FormLabel>
@@ -123,7 +126,10 @@ const HotNewsForm = () => {
               control={form.control}
               name="subTitle"
               render={({ field }) => (
-                <FormItem className="flex items-center">
+                <FormItem
+                  className="flex md:flex-row flex-col
+                  items-start md:items-center"
+                >
                   <FormLabel className="body md:paragraph-2 w-full max-w-[200px]">
                     Sub Judul{" "}
                   </FormLabel>
@@ -143,7 +149,10 @@ const HotNewsForm = () => {
               control={form.control}
               name="publisher"
               render={({ field }) => (
-                <FormItem className="flex items-center">
+                <FormItem
+                  className="flex md:flex-row flex-col
+                  items-start md:items-center"
+                >
                   <FormLabel className="body md:paragraph-2 w-full max-w-[200px]">
                     Penerbit{" "}
                   </FormLabel>
@@ -163,7 +172,10 @@ const HotNewsForm = () => {
               control={form.control}
               name="date"
               render={({ field }) => (
-                <FormItem className="flex items-center">
+                <FormItem
+                  className="flex md:flex-row flex-col
+                  items-start md:items-center"
+                >
                   <FormLabel className="body md:paragraph-2 w-full max-w-[200px]">
                     Tanggal{" "}
                   </FormLabel>
@@ -199,9 +211,7 @@ const HotNewsForm = () => {
                         />
                       </PopoverContent>
                     </Popover>
-                    <FormDescription>
-                      Your date of birth is used to calculate your age.
-                    </FormDescription>
+                    <FormDescription>Published Date</FormDescription>
                   </div>
                   <FormMessage />{" "}
                 </FormItem>
