@@ -30,7 +30,7 @@ export default function DashboardLayout({ children }) {
         </nav>{" "}
       </div>
       {/* Sidebar */}
-      <nav className="bg-black p-4 py-12 hidden md:fixed min-h-screen transition-transform z-40">
+      <nav className="bg-black p-4 py-12 hidden md:flex fixed min-h-screen z-40">
         <Sidebar />
       </nav>
       <main
