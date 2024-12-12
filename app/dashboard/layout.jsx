@@ -11,22 +11,24 @@ export default function DashboardLayout({ children }) {
     setOpen((prev) => !prev);
   };
   return (
-    <div className="max-w-[2160px] mx-auto flex relative overflow-x-hidden">
+    <div className="max-w-[2160px] mx-auto flex overflow-x-hidden">
       {/* Side Bar Toggle Button */}
       <button
         onClick={toggleSideBar}
-        className={`${open ? "left-4 top-1/2" : "left-0"} flex md:hidden absolute top-1/2 translate-y-1/2 z-50 bg-black text-white p-2 rounded-r-full bg-opacity-60 hover:bg-opacity-100 focus:bg-opacity-100`}
+        className={`${open ? "left-4 top-1/2" : "left-0"} flex md:hidden absolute top-1/2 -translate-y-24 z-50 bg-black text-white p-2 rounded-r-full bg-opacity-60 hover:bg-opacity-100 focus:bg-opacity-100`}
       >
         {open ? <X size={28} /> : <ChevronRight size={24} />}
       </button>
       {/* Mobile Sidebar */}
-      <nav
-        className={`bg-black p-4 py-12 fixed min-h-screen transition-transform z-40 ${
-          open ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <Sidebar />
-      </nav>{" "}
+      <div className="relative">
+        <nav
+          className={`bg-black p-4 py-12 fixed min-h-screen transition-transform z-40 ${
+            open ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <Sidebar />
+        </nav>{" "}
+      </div>
       {/* Sidebar */}
       <nav className="bg-black p-4 py-12 hidden md:fixed min-h-screen transition-transform z-40">
         <Sidebar />
