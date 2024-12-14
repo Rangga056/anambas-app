@@ -10,7 +10,7 @@ const ActivityPage = () => {
       </div>
 
       {/* Hot News Form */}
-      <div className="mt-20">
+      <div className="mt-6 md:mt-20">
         <HotNewsForm />
       </div>
     </>
