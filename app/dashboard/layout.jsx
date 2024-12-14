@@ -20,7 +20,7 @@ export default function DashboardLayout({ children }) {
         {open ? <X size={28} /> : <ChevronRight size={24} />}
       </button>
       {/* Mobile Sidebar */}
-      <div className="relative">
+      <div className="relative md:hidden">
         <nav
           className={`bg-black p-4 py-12 fixed min-h-screen transition-transform z-40 ${
             open ? "translate-x-0" : "-translate-x-full"
@@ -34,7 +34,7 @@ export default function DashboardLayout({ children }) {
         <Sidebar />
       </nav>
       <main
-        className={`${open ? "pl-24 w-full" : "p-6 w-full"} p-6 md:p-12 md:pl-24`}
+        className={`${open ? "pl-24 w-full" : "p-8 w-full"} p-8 pt-8 md:p-16 md:pl-28`}
       >
         {children}
       </main>

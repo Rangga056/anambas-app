@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import React from "react";
-import { Loader2 } from "lucide-react";
+import { FileImage, Loader2 } from "lucide-react";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
+import { useDropzone } from "react-dropzone";
 
 const MAX_FILE_SIZE = 5000000; // 5MB
 const ACCEPTED_IMAGE_TYPES = [
@@ -67,9 +68,40 @@ const FormSchema = z.object({
 
 const HotNewsForm = () => {
   const { toast } = useToast();
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
 
   const form = useForm({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      title: "",
+      subTitle: "",
+      publisher: "",
+      date: "",
+      headerImg: "",
+      description: "",
+    },
+  });
+
+  const onDrop = (acceptedFiles) => {
+    if (acceptedFiles.length > 0) {
+      const file = acceptedFiles[0];
+      setUploadedFile(file);
+      form.setValue("headerImg", file); // Set the file in the form state
+
+      // Create image preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: "image/png, image/jpeg, image/webp",
+    maxSize: MAX_FILE_SIZE,
   });
 
   function onSubmit(data) {
@@ -215,7 +247,7 @@ const HotNewsForm = () => {
               render={({ field: { value, onChange, ...fieldProps } }) => (
                 <FormItem
                   className="flex md:flex-row flex-col
-                  items-start"
+                  items-start gap-y-2"
                 >
                   <FormLabel className="body md:paragraph-2 w-full md:max-w-[200px] flex flex-col items-start">
                     <p>Foto Header</p>
@@ -223,18 +255,46 @@ const HotNewsForm = () => {
                       Foto yang akan tampil sebagai thumbnail dari berita
                     </p>
                   </FormLabel>
-                  <div className="w-full h-[120px] md:h-[280px] bg-gray-300 flex-center border border-black">
-                    <FormControl>
-                      <Input
-                        type="file"
-                        accept="image/*"
-                        onChange={(event) =>
-                          onChange(event.target.files && event.target.files[0])
-                        }
-                        className="border border-black h-[45px] w-fit"
+                  {imagePreview && (
+                    <div className="flex-center w-full h-full">
+                      <img
+                        src={imagePreview}
+                        alt="Image Preview"
+                        className="w-full h-auto object-cover object-center rounded-xl"
                       />
-                    </FormControl>
-                  </div>
+                    </div>
+                  )}
+                  <div
+                    {...getRootProps()}
+                    className={cn(
+                      "w-full h-[120px] md:h-[280px] bg-gray-300 flex-center border border-dashed border-black p-4",
+                      isDragActive && "bg-gray-400",
+                      imagePreview &&
+                        "md:ml-4 bg-transparent border-none cursor-pointer",
+                    )}
+                  >
+                    <input {...getInputProps()} />
+                    {uploadedFile ? (
+                      <div className="flex-center">
+                        <div className="w-fit border border-black flex-center p-3 rounded-xl">
+                          <p className="body">
+                            File uploaded: {uploadedFile.name}
+                          </p>
+                          <div className="flex-center">
+                            <FileImage size={30} />
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex-center gap-x-4">
+                        <p className="text-center body">
+                          Drag and drop an image file here, or click to select a
+                          file.
+                        </p>
+                        <FileImage size={30} />
+                      </div>
+                    )}{" "}
+                  </div>{" "}
                   <FormMessage />
                 </FormItem>
               )}
