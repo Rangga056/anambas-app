@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import React from "react";
-import Link from "next/link";
 import { Loader2 } from "lucide-react";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
@@ -28,16 +27,15 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { Textarea } from "@/components/ui/textarea";
 
-const MAX_FILE_SIZE = 5000000;
-
-function checkFileType(file) {
-  if (file?.name) {
-    const fileType = file.name.split(".").pop();
-    if (fileType === "jpg" || fileType === "png") return true;
-  }
-  return false;
-}
+const MAX_FILE_SIZE = 5000000; // 5MB
+const ACCEPTED_IMAGE_TYPES = [
+  "image/png",
+  "image/jpeg",
+  "image/jpg",
+  "image/webp",
+];
 
 // Zod form schema
 const FormSchema = z.object({
@@ -56,14 +54,12 @@ const FormSchema = z.object({
   date: z.date({
     required_error: "A date is required.",
   }),
-  headerImg: z
-    .any()
-    .refine((file) => file?.length !== 0, "File is required")
-    .refine((file) => file.size < MAX_FILE_SIZE, "Max size is 5MB.")
-    .refine(
-      (file) => checkFileType(file),
-      "Only .jpg, .png formats are supported.",
-    ),
+  headerImg: z.any().refine((file) => {
+    if (!file) return false;
+    if (file.size > MAX_FILE_SIZE) return false;
+    if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) return false;
+    return true;
+  }),
   description: z
     .string()
     .min(60, { message: "Description need to be at least 60 characters" }),
@@ -74,14 +70,6 @@ const HotNewsForm = () => {
 
   const form = useForm({
     resolver: zodResolver(FormSchema),
-    defaultValues: {
-      title: "",
-      subTitle: "",
-      publisher: "",
-      date: "",
-      headerImg: "",
-      description: "",
-    },
   });
 
   function onSubmit(data) {
@@ -93,13 +81,17 @@ const HotNewsForm = () => {
         </pre>
       ),
     });
+    console.log(data);
   }
 
   return (
     <div className="flex flex-col gap-y-4">
       <div className="">
         <Form {...form} className="w-full h-full container">
-          <form className="w-full space-y-6 mt-6 flex flex-col justify-center">
+          <form
+            className="w-full space-y-6 mt-6 flex flex-col justify-center"
+            onSubmit={form.handleSubmit(onSubmit)}
+          >
             <FormField
               control={form.control}
               name="title"
@@ -217,6 +209,63 @@ const HotNewsForm = () => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="headerImg"
+              render={({ field: { value, onChange, ...fieldProps } }) => (
+                <FormItem
+                  className="flex md:flex-row flex-col
+                  items-start"
+                >
+                  <FormLabel className="body md:paragraph-2 w-full md:max-w-[200px] flex flex-col items-start">
+                    <p>Foto Header</p>
+                    <p className="text-black text-muted-foreground">
+                      Foto yang akan tampil sebagai thumbnail dari berita
+                    </p>
+                  </FormLabel>
+                  <div className="w-full h-[120px] md:h-[280px] bg-gray-300 flex-center border border-black">
+                    <FormControl>
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(event) =>
+                          onChange(event.target.files && event.target.files[0])
+                        }
+                        className="border border-black h-[45px] w-fit"
+                      />
+                    </FormControl>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem
+                  className="flex md:flex-row flex-col
+                  items-start"
+                >
+                  <FormLabel className="body md:paragraph-2 w-full max-w-[200px] flex flex-col items-start">
+                    Deskripsi Berita
+                  </FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Tulis Deskripsi dari berita..."
+                      className="w-full h-[250px] md:h-[400px] border border-black bg-white"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="flex-center">
+              <Button type="submit" className="w-[200px]">
+                Submit
+              </Button>
+            </div>
           </form>
         </Form>
       </div>
