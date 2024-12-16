@@ -12,22 +12,27 @@ export function middleware(req) {
 
   // Define the protected routes and required roles
   const protectedRoutes = {
-    "/dashboard/super-admin": ["superadmin"],
-    "/dashboard/site-admin": ["siteadmin"],
-    "/dashboard/district-admin": ["districtadmin"],
+    "super-admin": ["superadmin"],
+    "site-admin": ["siteadmin"],
+    "district-admin": ["districtadmin"],
   };
 
   const { pathname } = req.nextUrl;
 
-  // Check if the route is protected
-  if (protectedRoutes[pathname]) {
+  // Match the base dashboard path and extract the admin type
+  const dashboardMatch = pathname.match(
+    /^\/dashboard\/(super-admin|site-admin|district-admin)(\/.*)?$/
+  );
+
+  if (dashboardMatch) {
+    const adminType = dashboardMatch[1]; // Extracted admin type, e.g., "site-admin"
     if (!token || !token.startsWith("Bearer")) {
       console.log("No Bearer token found. Redirecting to login.");
       return NextResponse.redirect(new URL("/login", req.url)); // Redirect to login
     }
 
-    // Check if the user has the required role for the route
-    if (!protectedRoutes[pathname].includes(role)) {
+    // Check if the user's role matches the required role for this route
+    if (!protectedRoutes[adminType]?.includes(role)) {
       console.log("Unauthorized access. Redirecting to 403 page.");
       return NextResponse.redirect(new URL("/403", req.url)); // Redirect to 403 page
     }
@@ -37,5 +42,5 @@ export function middleware(req) {
 }
 
 export const config = {
-  matcher: "/dashboard/:path*",
+  matcher: "/dashboard/:path*", // Match all routes under "/dashboard"
 };
