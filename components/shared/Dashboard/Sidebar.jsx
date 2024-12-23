@@ -10,9 +10,24 @@ import {
 } from "@/constants/Dashboard";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAuthStore } from "@/app/stores/authStore";
+import { Button } from "@/components/ui/button";
+import { LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const Sidebar = () => {
   const pathname = usePathname();
+
+  // Access the logout function from useAuthStore
+  const logout = useAuthStore((state) => state.logout);
+
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logout(); // Call logout function from auth store
+
+    router.push("/login");
+  };
 
   //change the sidebar based on different admin
   let navItems = [];
@@ -42,9 +57,16 @@ const Sidebar = () => {
             width={24}
             height={24}
             alt="sidebar icon"
+            className={`${item.route === "/dashboard/site-admin/activity" && "bg-black rounded-full"}`}
           />
         </Link>
       ))}
+      <Button
+        onClick={handleLogout}
+        className="rounded-full bg-transparent hover:bg-white text-black bg-white aspect-square p-0"
+      >
+        <LogOut />
+      </Button>
     </div>
   );
 };

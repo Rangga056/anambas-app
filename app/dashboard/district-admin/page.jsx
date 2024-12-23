@@ -1,6 +1,3 @@
-"use client";
-
-import withAuth from "@/app/hoc/withAuth";
 import React from "react";
 
 const DistrictAdmin = () => {
@@ -11,4 +8,4 @@ const DistrictAdmin = () => {
   );
 };
 
-export default withAuth(DistrictAdmin, "districtadmin");
+export default DistrictAdmin;

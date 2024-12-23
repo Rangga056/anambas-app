@@ -1,5 +1,6 @@
 // Icons
 import homeIcon from "@/public/assets/icons/home.png";
+import addIcon from "@/public/assets/icons/add-icons.png";
 
 // super admin sidebar navigation
 export const superAdminNav = [
@@ -14,6 +15,10 @@ export const siteAdminNav = [
   {
     icon: homeIcon,
     route: "/dashboard/site-admin",
+  },
+  {
+    icon: addIcon,
+    route: "/dashboard/site-admin/activity",
   },
 ];
 

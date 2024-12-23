@@ -1,6 +1,3 @@
-"use client";
-
-import withAuth from "@/app/hoc/withAuth";
 import React from "react";
 
 const SuperAdminPage = () => {
@@ -11,4 +8,4 @@ const SuperAdminPage = () => {
   );
 };
 
-export default withAuth(SuperAdminPage, "superadmin");
+export default SuperAdminPage;
