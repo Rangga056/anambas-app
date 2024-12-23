@@ -18,7 +18,7 @@ const LattestCard = ({ image, date, title, place }) => {
       </div>
       <div className="h-full justify-end items-start w-[400px] mt-2">
         <div className="flex items-center">
-          <p className="uppercase text-xs uppercase">penerbit</p>
+          <p className="uppercase text-xs">penerbit</p>
           <Dot />
           <p className="uppercase text-xs">{date}</p>
         </div>
