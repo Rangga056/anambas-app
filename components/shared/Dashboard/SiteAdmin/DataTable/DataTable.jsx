@@ -62,9 +62,9 @@ function Filter({ column }) {
             <SelectGroup>
               <SelectLabel>Actions</SelectLabel>
               <SelectItem value="all">All</SelectItem>
-              <SelectItem value="add">Login</SelectItem>
-              <SelectItem value="update">Logout</SelectItem>
-              <SelectItem value="delete">Update</SelectItem>
+              <SelectItem value="add">Add</SelectItem>
+              <SelectItem value="update">Update</SelectItem>
+              <SelectItem value="delete">Delete</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
