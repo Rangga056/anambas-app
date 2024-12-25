@@ -4,18 +4,18 @@ export const columns = [
   {
     accessorKey: "username",
     header: "Username",
-    enableFiltering: true,
+    enableFiltering: false,
     sortingFn: "alphanumeric",
   },
   {
     accessorKey: "action",
     header: "Action",
-    enableFiltering: true,
+    enableFiltering: true, // Keep this true to enable filtering
   },
   {
     accessorKey: "date",
     header: "Date",
-    enableFiltering: true,
+    enableFiltering: false,
     sortingFn: "datetime",
   },
 ];

@@ -27,6 +27,15 @@ import {
 import { useEffect, useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 function Filter({ column }) {
   const columnFilterValue = column.getFilterValue();
@@ -36,16 +45,35 @@ function Filter({ column }) {
     setIsClient(true);
   }, []);
 
-  return (
-    isClient && (
-      <Input
-        value={columnFilterValue ?? ""}
-        onChange={(e) => column.setFilterValue(e.target.value)}
-        placeholder="Search..."
-        className="w-full border rounded p-1"
-      />
-    )
-  );
+  if (column.id === "action") {
+    // Use Select for the "action" column
+    return (
+      isClient && (
+        <Select
+          value={columnFilterValue || "all"}
+          onValueChange={(value) =>
+            column.setFilterValue(value === "all" ? undefined : value)
+          }
+        >
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Filter by action" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Actions</SelectLabel>
+              <SelectItem value="all">All</SelectItem>
+              <SelectItem value="add">Login</SelectItem>
+              <SelectItem value="update">Logout</SelectItem>
+              <SelectItem value="delete">Update</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      )
+    );
+  }
+
+  // No filter for other columns
+  return null;
 }
 
 export function DataTable({ columns, data }) {
@@ -63,9 +91,8 @@ export function DataTable({ columns, data }) {
     getFilteredRowModel: getFilteredRowModel(),
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(), // Enable sorting functionality
+    getSortedRowModel: getSortedRowModel(),
     sortingFns: {
-      // Custom sorting functions if needed
       alphanumeric: (rowA, rowB, columnId) => {
         const a = rowA.original[columnId] || "";
         const b = rowB.original[columnId] || "";
@@ -78,7 +105,6 @@ export function DataTable({ columns, data }) {
       },
     },
   });
-  console.log(table);
 
   return (
     <div className="rounded-md border">
@@ -87,53 +113,22 @@ export function DataTable({ columns, data }) {
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <TableHead key={header.id} className="px-2">
+                <TableHead
+                  key={header.id}
+                  className="px-2 pt-3 h-full align-top"
+                >
                   <div className="flex items-start flex-col gap-y-2 py-2">
-                    {/* Render column header */}
                     <h3 className="md:text-lg pl-1">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </h3>
-                    <div className="flex items-center justify-between w-full">
-                      {/* Filter input */}
-                      {typeof window !== "undefined" &&
-                        header.column.getCanFilter() && (
-                          <Filter column={header.column} />
-                        )}
-                      {/* Sorting icon */}
-                      <div
-                        onClick={() => {
-                          // Toggle the sorting state for the specific column
-                          const isCurrentlyDesc = sorting.find(
-                            (sort) =>
-                              sort.id === header.id && sort.desc === true
-                          );
-
-                          // Update sorting state to toggle between ascending and descending
-                          setSorting([
-                            { id: header.id, desc: !isCurrentlyDesc },
-                          ]);
-                        }} // Toggle sorting on click
-                        className="cursor-pointer"
-                      >
-                        {header.column.getIsSorted() ? (
-                          header.column.getIsSorted() === "asc" ? (
-                            <ChevronUp className="header-4 text-black ml-2" />
-                          ) : (
-                            <ChevronDown className="header-4 text-black ml-2" />
-                          )
-                        ) : header.id === "date" ? (
-                          // Default sorting icon for date column
-                          <ChevronDown className="header-4 text-black ml-2" />
-                        ) : (
-                          <ChevronUp className="header-4 text-black ml-2" />
-                        )}
-                      </div>
-                    </div>
+                    {header.column.getCanFilter() && (
+                      <Filter column={header.column} />
+                    )}
                   </div>
                 </TableHead>
               ))}
@@ -148,17 +143,14 @@ export function DataTable({ columns, data }) {
                 data-state={row.getIsSelected() && "selected"}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell
-                    key={cell.id}
-                    className="border-x last:border-0  [&:nth-child(3)]:border-0 last:relative"
-                  >
+                  <TableCell key={cell.id} className="border-x last:border-0">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
                 <Dialog>
                   <DialogTrigger asChild className="mt-2">
                     <td className="text-gray-500 hover:text-black header-4 hover:cursor-pointer flex-center w-fit absolute right-4">
-                      &#x2026; {/* Ellipsis character */}
+                      &#x2026;
                     </td>
                   </DialogTrigger>
                   <DialogContent>

@@ -2,33 +2,29 @@
 
 import { Input } from "@/components/ui/input";
 import { DataTable } from "@/components/shared/Dashboard/SiteAdmin/DataTable/DataTable";
-// import { columns } from "@/components/shared/Dashboard/SiteAdmin/DataTable/Colums";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { RefreshCcw, Search } from "lucide-react";
 import {
   Breadcrumb,
-  BreadcrumbEllipsis,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
 import { columns } from "@/components/shared/Dashboard/SiteAdmin/DataTable/Colums";
 import { useUserActivityStore } from "@/app/stores/userStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchUserActivity } from "@/lib/actions/site-admin/activity.actions";
 
 const SiteAdminPage = () => {
   const { data, setData } = useUserActivityStore();
+  const [searchTerm, setSearchTerm] = useState("");
 
-  // Define the getData function
   const getData = async () => {
     try {
       const fetchedData = await fetchUserActivity();
-      console.log(fetchedData);
       setData(fetchedData);
     } catch (error) {
       console.error(error);
@@ -40,11 +36,14 @@ const SiteAdminPage = () => {
     getData();
   }, []);
 
+  const filteredData = data.filter((item) =>
+    item.username.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
   return (
     <div className="overflow-hidden">
       {/* Header */}
       <header className="flex-between gap-x-4">
-        {/* Bread crumbs */}
         <Breadcrumb className="paragraph-2 font-medium text-black opacity-100">
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -55,18 +54,21 @@ const SiteAdminPage = () => {
             <BreadcrumbSeparator />
           </BreadcrumbList>
         </Breadcrumb>
+
         {/* Search Bar */}
         <div className="hidden md:flex rounded-full bg-grey-50 px-2 py-1 border max-w-[500px] flex-1">
           <Input
             type="text"
             name="search"
+            placeholder="Search by username"
             className="bg-transparent border-0 outline-offset-0 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           <Button className="bg-transparent p-0 aspect-square hover:bg-transparent active:scale-95">
             <Search className="text-black" />
           </Button>
         </div>
-        {/* Username */}
         <p className="paragraph-3 font-medium">Username</p>
       </header>
 
@@ -84,8 +86,7 @@ const SiteAdminPage = () => {
         <div className="overflow-x-scroll">
           <div className="mt-8 min-w-max">
             {/* Data Table Component */}
-            <DataTable columns={columns} data={data || []} />
-            {/* {data} */}
+            <DataTable columns={columns} data={filteredData || []} />
           </div>
         </div>
       </div>
