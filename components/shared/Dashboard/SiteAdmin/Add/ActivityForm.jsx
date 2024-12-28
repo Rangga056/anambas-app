@@ -1,6 +1,6 @@
 "use client";
 
-import ReactQuill, { Quill } from "react-quill";
+import ReactQuill, { Quill } from "react-quill-new";
 import ImageResize from "quill-image-resize-module-react";
 import "react-quill/dist/quill.snow.css";
 import { zodResolver } from "@hookform/resolvers/zod";
