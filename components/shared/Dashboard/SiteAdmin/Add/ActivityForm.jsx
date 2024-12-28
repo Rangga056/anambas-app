@@ -1,6 +1,7 @@
 "use client";
 
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
+import ImageResize from "quill-image-resize-module-react";
 import "react-quill/dist/quill.snow.css";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -31,6 +32,8 @@ import {
 import { cn } from "@/lib/utils";
 import { useDropzone } from "react-dropzone";
 import "./style.css";
+
+Quill.register("modules/imageResize", ImageResize);
 
 const MAX_FILE_SIZE = 5000000; // 5MB
 const ACCEPTED_IMAGE_TYPES = [
@@ -130,6 +133,10 @@ const HotNewsForm = () => {
       ],
       ["link", "image"],
     ],
+    imageResize: {
+      parchment: Quill.import("parchment"),
+      modules: ["Resize", "DisplaySize"],
+    },
   };
 
   return (
