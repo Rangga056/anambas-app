@@ -15,7 +15,7 @@ export default function DashboardLayout({ children }) {
       {/* Side Bar Toggle Button */}
       <button
         onClick={toggleSideBar}
-        className={`${open ? "left-24 rounded-full" : "left-0"} flex md:hidden absolute top-1/2 -translate-y-24 z-50 bg-black text-white p-2 rounded-r-full bg-opacity-60 hover:bg-opacity-100 focus:bg-opacity-100`}
+        className={`${open ? "left-24 rounded-full" : "left-0"} flex fixed md:hidden top-1/2 -translate-y-24 z-50 bg-black text-white p-2 rounded-r-full bg-opacity-60 hover:bg-opacity-100 focus:bg-opacity-100`}
       >
         {open ? <X size={28} /> : <ChevronRight size={24} />}
       </button>
