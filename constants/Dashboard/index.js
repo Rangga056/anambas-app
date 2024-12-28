@@ -18,7 +18,7 @@ export const siteAdminNav = [
   },
   {
     icon: addIcon,
-    route: "/dashboard/site-admin/activity",
+    route: "/dashboard/site-admin/add",
   },
 ];
 

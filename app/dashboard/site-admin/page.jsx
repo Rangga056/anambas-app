@@ -44,11 +44,13 @@ const SiteAdminPage = () => {
     <div className="overflow-hidden">
       {/* Header */}
       <header className="flex-between gap-x-4">
-        <Breadcrumb className="paragraph-2 font-medium text-black opacity-100">
+        <Breadcrumb className="font-medium text-black opacity-100">
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link href="/">Dashboard</Link>
+                <Link className="paragraph-2 opacity-100 text-black" href="/">
+                  Dashboard
+                </Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />

@@ -1,5 +1,7 @@
 "use client";
 
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -27,8 +29,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { Textarea } from "@/components/ui/textarea";
 import { useDropzone } from "react-dropzone";
+import "./style.css";
 
 const MAX_FILE_SIZE = 5000000; // 5MB
 const ACCEPTED_IMAGE_TYPES = [
@@ -116,6 +118,20 @@ const HotNewsForm = () => {
     console.log(data);
   }
 
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, false] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["link", "image"],
+    ],
+  };
+
   return (
     <div className="flex flex-col gap-y-4">
       <div className="">
@@ -137,7 +153,7 @@ const HotNewsForm = () => {
                   </FormLabel>
                   <FormControl className="w-full">
                     <Input
-                      placeholder="Judul berita..."
+                      placeholder="Judul aktivitas..."
                       {...field}
                       className="rounded-none border border-black h-[45px]"
                     />
@@ -159,7 +175,7 @@ const HotNewsForm = () => {
                   </FormLabel>
                   <FormControl className="w-full">
                     <Input
-                      placeholder="Sub judul berita..."
+                      placeholder="Sub judul aktivitas..."
                       type="text"
                       {...field}
                       className="rounded-none border border-black h-[45px]"
@@ -182,7 +198,7 @@ const HotNewsForm = () => {
                   </FormLabel>
                   <FormControl className="w-full">
                     <Input
-                      placeholder="Penerbit berita..."
+                      placeholder="Penerbit..."
                       type="text"
                       {...field}
                       className="rounded-none border border-black h-[45px]"
@@ -252,7 +268,7 @@ const HotNewsForm = () => {
                   <FormLabel className="body md:paragraph-2 w-full md:max-w-[200px] flex flex-col items-start">
                     <p>Foto Header</p>
                     <p className="text-black text-muted-foreground">
-                      Foto yang akan tampil sebagai thumbnail dari berita
+                      Foto yang akan tampil sebagai thumbnail dari aktivitas
                     </p>
                   </FormLabel>
                   {imagePreview && (
@@ -311,10 +327,12 @@ const HotNewsForm = () => {
                     Deskripsi Berita
                   </FormLabel>
                   <FormControl>
-                    <Textarea
-                      placeholder="Tulis Deskripsi dari berita..."
-                      className="w-full h-[250px] md:h-[400px] border border-black bg-white"
-                      {...field}
+                    <ReactQuill
+                      theme="snow"
+                      value={field.value}
+                      onChange={field.onChange}
+                      modules={modules}
+                      className="w-full overflow-x-hidden h-[250px] md:h-[400px] mb-10"
                     />
                   </FormControl>
                   <FormMessage />
