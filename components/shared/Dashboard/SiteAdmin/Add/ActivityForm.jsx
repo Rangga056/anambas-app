@@ -65,7 +65,7 @@ const FormSchema = z.object({
   }),
   description: z
     .string()
-    .min(60, { message: "Description need to be at least 60 characters" }),
+    .min(30, { message: "Description need to be at least 30 characters" }),
 });
 
 const HotNewsForm = () => {
@@ -324,7 +324,7 @@ const HotNewsForm = () => {
                   items-start"
                 >
                   <FormLabel className="body md:paragraph-2 w-full max-w-[200px] flex flex-col items-start">
-                    Deskripsi Berita
+                    Deskripsi Aktivitas
                   </FormLabel>
                   <FormControl>
                     <ReactQuill
@@ -332,7 +332,7 @@ const HotNewsForm = () => {
                       value={field.value}
                       onChange={field.onChange}
                       modules={modules}
-                      className="w-full overflow-x-hidden h-[250px] md:h-[400px] mb-10"
+                      className="w-full overflow-hidden h-[250px] md:h-[400px] mb-10"
                     />
                   </FormControl>
                   <FormMessage />
