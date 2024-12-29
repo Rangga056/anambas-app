@@ -1,12 +1,12 @@
 "use client";
 
-import ReactQuill, { Quill } from "react-quill-new";
-import ImageResize from "quill-image-resize-module-react";
+// import { Quill } from "react-quill-new";
+// import QuillResizeImage from "quill-resize-image";
 import "react-quill/dist/quill.snow.css";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
@@ -33,7 +33,9 @@ import { cn } from "@/lib/utils";
 import { useDropzone } from "react-dropzone";
 import "./style.css";
 
-Quill.register("modules/imageResize", ImageResize);
+import dynamic from "next/dynamic";
+
+const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 
 const MAX_FILE_SIZE = 5000000; // 5MB
 const ACCEPTED_IMAGE_TYPES = [
@@ -71,7 +73,16 @@ const FormSchema = z.object({
     .min(30, { message: "Description need to be at least 30 characters" }),
 });
 
-const HotNewsForm = () => {
+const ActivityForm = () => {
+  useEffect(() => {
+    const registerQuillModules = async () => {
+      const { Quill } = await import("react-quill-new");
+      const ResizeImage = await import("quill-resize-image");
+      Quill.register("modules/resize", ResizeImage.default);
+    };
+
+    registerQuillModules();
+  }, []);
   const { toast } = useToast();
   const [uploadedFile, setUploadedFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -133,9 +144,8 @@ const HotNewsForm = () => {
       ],
       ["link", "image"],
     ],
-    imageResize: {
-      parchment: Quill.import("parchment"),
-      modules: ["Resize", "DisplaySize"],
+    resize: {
+      locale: {},
     },
   };
 
@@ -357,4 +367,4 @@ const HotNewsForm = () => {
     </div>
   );
 };
-export default HotNewsForm;
+export default ActivityForm;
