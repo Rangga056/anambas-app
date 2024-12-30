@@ -78,6 +78,7 @@ const ActivityForm = () => {
     const registerQuillModules = async () => {
       const { Quill } = await import("react-quill-new");
       const ResizeImage = await import("quill-resize-image");
+
       Quill.register("modules/resize", ResizeImage.default);
     };
 
@@ -134,7 +135,7 @@ const ActivityForm = () => {
 
   const modules = {
     toolbar: [
-      [{ header: [1, 2, false] }],
+      [{ header: [1, 2, 3, false] }],
       ["bold", "italic", "underline", "strike", "blockquote"],
       [
         { list: "ordered" },
@@ -244,7 +245,7 @@ const ActivityForm = () => {
                             variant={"outline"}
                             className={cn(
                               "w-[240px] pl-3 text-left font-normal",
-                              !field.value && "text-muted-foreground",
+                              !field.value && "text-muted-foreground"
                             )}
                           >
                             {field.value ? (
@@ -303,7 +304,7 @@ const ActivityForm = () => {
                       "w-full h-[120px] md:h-[280px] bg-gray-300 flex-center border border-dashed border-black p-4",
                       isDragActive && "bg-gray-400",
                       imagePreview &&
-                        "md:ml-4 bg-transparent border-none cursor-pointer",
+                        "md:ml-4 bg-transparent border-none cursor-pointer"
                     )}
                   >
                     <input {...getInputProps()} />
@@ -349,7 +350,7 @@ const ActivityForm = () => {
                       value={field.value}
                       onChange={field.onChange}
                       modules={modules}
-                      className="w-full overflow-hidden h-[250px] md:h-[400px] mb-10"
+                      className="w-full overflow-hidden h-[450px] md:h-[800px] mb-10"
                     />
                   </FormControl>
                   <FormMessage />

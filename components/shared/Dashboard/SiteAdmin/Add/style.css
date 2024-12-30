@@ -1,7 +1,10 @@
+/* Quilljs custom styling */
+
 .controls {
+  z-index: 99;
   display: flex;
   border: 1px solid #ccc;
-  border-top: 0;
+  margin-top: 20px;
   padding: 10px;
 }
 
@@ -19,6 +22,36 @@
   text-transform: uppercase;
 }
 
+.ql-container #editor-resizer .toolbar {
+  z-index: 99;
+  display: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: 20px;
+}
+
+.ql-editor h1 {
+  font-size: 36px !important; /* Ensure Heading 1 is 36px */
+}
+
+.ql-editor h2 {
+  font-size: 30px !important; /* Ensure Heading 2 is 30px */
+}
+
+.ql-editor h3 {
+  font-size: 24px !important; /* Ensure Heading 3 is 24px */
+}
+
+.ql-editor p {
+  font-size: 16px !important; /* Ensure normal text is 16px */
+}
+
 .ql-container {
-  height: calc(100% - 42px);
+  height: calc(100% - 80px);
+  display: relative;
+}
+
+@media only screen and (min-width: 768px) {
+  height: calc(100% - 50px);
 }
