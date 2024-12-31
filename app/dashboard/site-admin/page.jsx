@@ -26,6 +26,7 @@ const SiteAdminPage = () => {
     try {
       const fetchedData = await fetchUserActivity();
       setData(fetchedData);
+      console.log(fetchedData);
     } catch (error) {
       console.error(error);
     }
