@@ -6,6 +6,7 @@ import {
   getCoreRowModel,
   getSortedRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -25,7 +26,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useEffect, useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -46,7 +54,6 @@ function Filter({ column }) {
   }, []);
 
   if (column.id === "action") {
-    // Use Select for the "action" column
     return (
       isClient && (
         <Select
@@ -72,13 +79,16 @@ function Filter({ column }) {
     );
   }
 
-  // No filter for other columns
   return null;
 }
 
 export function DataTable({ columns, data }) {
   const [sorting, setSorting] = useState([{ id: "date", desc: true }]);
   const [columnFilters, setColumnFilters] = useState([]);
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 5, // Default rows per page
+  });
 
   const table = useReactTable({
     data,
@@ -86,12 +96,15 @@ export function DataTable({ columns, data }) {
     state: {
       sorting,
       columnFilters,
+      pagination,
     },
     onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
     onSortingChange: setSorting,
+    onPaginationChange: setPagination,
+    getFilteredRowModel: getFilteredRowModel(),
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     sortingFns: {
       alphanumeric: (rowA, rowB, columnId) => {
         const a = rowA.original[columnId] || "";
@@ -105,6 +118,11 @@ export function DataTable({ columns, data }) {
       },
     },
   });
+
+  const goToPage = (page) => {
+    const pageIndex = Math.max(0, Math.min(page - 1, table.getPageCount() - 1));
+    table.setPageIndex(pageIndex);
+  };
 
   return (
     <div className="rounded-md border">
@@ -179,6 +197,74 @@ export function DataTable({ columns, data }) {
           )}
         </TableBody>
       </Table>
+      <div className="flex flex-col items-center gap-4 p-4 md:flex-row w-full justify-end">
+        <div className="flex items-center gap-2 w-full justify-center">
+          <ChevronsLeft
+            className={`cursor-pointer ${
+              !table.getCanPreviousPage() ? "text-gray-400" : "text-black"
+            }`}
+            onClick={() => table.setPageIndex(0)}
+            disabled={!table.getCanPreviousPage()}
+          />
+          <ChevronLeft
+            className={`cursor-pointer ${
+              !table.getCanPreviousPage() ? "text-gray-400" : "text-black"
+            }`}
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          />
+          <span>
+            Page{" "}
+            <strong>
+              {table.getState().pagination.pageIndex + 1} of{" "}
+              {table.getPageCount()}
+            </strong>
+          </span>
+          <ChevronRight
+            className={`cursor-pointer ${
+              !table.getCanNextPage() ? "text-gray-400" : "text-black"
+            }`}
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          />
+          <ChevronsRight
+            className={`cursor-pointer ${
+              !table.getCanNextPage() ? "text-gray-400" : "text-black"
+            }`}
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={!table.getCanNextPage()}
+          />
+        </div>
+        <div className="flex items-center justify-end w-max">
+          <div className="flex items-center gap-2">
+            <span>Go to page:</span>
+            <Input
+              type="number"
+              min={1}
+              max={table.getPageCount()}
+              value={table.getState().pagination.pageIndex + 1}
+              onChange={(e) => goToPage(Number(e.target.value))}
+              className="w-20"
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            <span>Rows per page:</span>
+            <Select
+              value={String(table.getState().pagination.pageSize)}
+              onValueChange={(value) => table.setPageSize(Number(value))}
+            >
+              <SelectTrigger className="w-16">
+                <SelectValue placeholder="Show rows per page" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="5">5</SelectItem>
+                <SelectItem value="10">10</SelectItem>
+                <SelectItem value="20">20</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
