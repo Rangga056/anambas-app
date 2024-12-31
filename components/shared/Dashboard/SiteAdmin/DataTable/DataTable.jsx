@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  ColumnDef,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
@@ -27,8 +26,6 @@ import {
 } from "@/components/ui/dialog";
 import { useEffect, useState } from "react";
 import {
-  ChevronDown,
-  ChevronUp,
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
@@ -119,14 +116,9 @@ export function DataTable({ columns, data }) {
     },
   });
 
-  const goToPage = (page) => {
-    const pageIndex = Math.max(0, Math.min(page - 1, table.getPageCount() - 1));
-    table.setPageIndex(pageIndex);
-  };
-
   return (
     <div className="rounded-md border">
-      <Table>
+      <Table className="min-w-[500px]">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -197,7 +189,7 @@ export function DataTable({ columns, data }) {
           )}
         </TableBody>
       </Table>
-      <div className="flex flex-col items-center gap-4 p-4 md:flex-row w-full justify-end">
+      <div className="flex flex-col items-center gap-4 p-4 w-full">
         <div className="flex items-center gap-2 w-full justify-center">
           <ChevronsLeft
             className={`cursor-pointer ${
@@ -235,16 +227,19 @@ export function DataTable({ columns, data }) {
             disabled={!table.getCanNextPage()}
           />
         </div>
-        <div className="flex items-center justify-end w-max">
+        <div className="flex items-center justify-center w-full gap-x-4">
           <div className="flex items-center gap-2">
             <span>Go to page:</span>
             <Input
               type="number"
-              min={1}
+              min="1"
               max={table.getPageCount()}
-              value={table.getState().pagination.pageIndex + 1}
-              onChange={(e) => goToPage(Number(e.target.value))}
-              className="w-20"
+              defaultValue={table.getState().pagination.pageIndex + 1}
+              onChange={(e) => {
+                const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                table.setPageIndex(page);
+              }}
+              className="w-16"
             />
           </div>
           <div className="flex items-center gap-2">
